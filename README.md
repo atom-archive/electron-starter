@@ -1,3 +1,3 @@
-# Atom Shell Start app
+# Atom Shell Starter App
 
 :construction: Under construction :construction:
