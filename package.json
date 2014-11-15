@@ -1,0 +1,50 @@
+{
+  "name": "eightoheight",
+  "productName": "808",
+  "version": "0.0.1",
+  "description": "A Sample Atom Shell App",
+  "main": "./src/browser/main.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/atom/atom-shell-starter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/atom/atom-shell-starter/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/atom/atom-shell-starter/raw/master/LICENSE.md"
+    }
+  ],
+  "atomShellVersion": "0.19.2",
+  "dependencies": {
+    "async": "0.2.6",
+    "coffee-script": "1.7.0",
+    "coffeestack": "0.7.0",
+    "emissary": "^1.3.1",
+    "fs-plus": "^2.3.1",
+    "fstream": "0.1.24",
+    "guid": "0.0.10",
+    "less-cache": "0.17.0",
+    "mixto": "^1",
+    "mkdirp": "0.3.5",
+    "nslog": "^1.0.1",
+    "optimist": "0.4.0",
+    "property-accessors": "^1",
+    "q": "^1.0.1",
+    "runas": "1.0.1",
+    "scrollbar-style": "^1.0.2",
+    "season": "^1.0.2",
+    "semver": "2.2.1",
+    "serializable": "^1",
+    "temp": "0.7.0",
+    "underscore-plus": "^1.6.1",
+    "vm-compatibility-layer": "0.1.0"
+  },
+  "private": true,
+  "scripts": {
+    "preinstall": "node -e 'process.exit(0)'",
+    "test": "node script/test"
+  }
+}
