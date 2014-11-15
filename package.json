@@ -1,6 +1,6 @@
 {
   "name": "eightoheight",
-  "productName": "808",
+  "productName": "EightOhEight",
   "version": "0.0.1",
   "description": "A Sample Atom Shell App",
   "main": "./src/browser/main.js",
