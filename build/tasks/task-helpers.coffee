@@ -47,8 +47,9 @@ module.exports = (grunt) ->
     grunt.file.delete(args..., force: true) if grunt.file.exists(args...)
 
   renderTemplate: (source, target, dict) ->
-    contents = fs.readFileSync source
+    contents = fs.readFileSync(source, encoding: 'utf8')
     compiled = _.template(contents)
+
     fs.writeFileSync(target, compiled(dict))
 
   spawn: (options, callback) ->

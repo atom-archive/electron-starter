@@ -1,4 +1,6 @@
 app = require 'app'
+url = require 'url'
+path = require 'path'
 BrowserWindow = require 'browser-window'
 
 # NB: Hack around broken native modules atm
@@ -12,11 +14,20 @@ process.on 'uncaughtException', (error={}) ->
 # unless it's after 'ready', or else mysterious bad things will happen
 # to you.
 app.on 'ready', ->
-  global.theWindow = new BrowserWindow
+  wnd = new BrowserWindow
     width: 800
     height: 600
+    show: false
     'web-preferences':
       'subpixel-font-scaling': true
       'direct-write': true
 
-  window.loadUrl('https://www.example.com')
+  target = url.format
+    protocol: 'file'
+    pathname: path.resolve(__dirname, '..', '..', 'static', 'index.html')
+    slashes: true
+
+  wnd.loadUrl(target)
+  wnd.show()
+
+  global.theWindow = wnd

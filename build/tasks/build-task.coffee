@@ -128,7 +128,7 @@ module.exports = (grunt) ->
         unless /.+\.plist/.test(sourcePath)
           grunt.file.copy(sourcePath, path.resolve(appDir, '..', subDirectory, filename))
 
-    dependencies = ['compile', 'generate-license:save', 'generate-module-cache', 'compile-packages-slug']
+    dependencies = ['compile', 'generate-license:save', 'generate-module-cache']
     dependencies.push('copy-info-plist') if process.platform is 'darwin'
     dependencies.push('set-exe-icon') if process.platform is 'win32'
     grunt.task.run(dependencies...)

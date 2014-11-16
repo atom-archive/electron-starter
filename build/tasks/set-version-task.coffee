@@ -31,7 +31,7 @@ module.exports = (grunt) ->
         done(error)
         return
 
-      appDir = grunt.config.get('atom.appDir')
+      appDir = grunt.config.get("#{pkgName}.appDir")
 
       # Replace version field of package.json.
       packageJsonPath = path.join(appDir, 'package.json')
@@ -40,11 +40,11 @@ module.exports = (grunt) ->
       packageJsonString = JSON.stringify(packageJson)
       fs.writeFileSync(packageJsonPath, packageJsonString)
 
-      executableName = grunt.config.get("#{pkgName}.executableName")
+      appName = grunt.config.get("#{pkgName}.appName")
 
       if process.platform is 'darwin'
         cmd = 'script/set-version'
-        args = [grunt.config.get("#{pkgName}.buildDir"), version, executableName]
+        args = [grunt.config.get("#{pkgName}.buildDir"), version, appName]
         spawn {cmd, args}, (error, result, code) -> done(error)
       else if process.platform is 'win32'
         shellAppDir = grunt.config.get("#{pkgName}.shellAppDir")

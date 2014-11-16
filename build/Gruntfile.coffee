@@ -39,7 +39,7 @@ module.exports = (grunt) ->
   tmpDir = os.tmpdir()
 
   pkgName = packageJson.name
-  productName = "#{packageJson.productName}"
+  productName = packageJson.productName
   appName = if process.platform is 'darwin' then "#{productName}.app" else productName
   executableName = if process.platform is 'win32' then "#{productName}.exe" else productName
   executableName = executableName.toLowerCase() if process.platform is 'linux'
@@ -95,11 +95,6 @@ module.exports = (grunt) ->
       dest: appDir
       ext: '.css'
 
-  prebuildLessConfig =
-    src: [
-      'static/**/*.less'
-    ]
-
   csonConfig =
     options:
       rootObject: true
@@ -123,8 +118,6 @@ module.exports = (grunt) ->
     coffee: coffeeConfig
 
     less: lessConfig
-
-    'prebuild-less': prebuildLessConfig
 
     cson: csonConfig
 
@@ -196,7 +189,7 @@ module.exports = (grunt) ->
 
   grunt.initConfig(opts)
 
-  grunt.registerTask('compile', ['coffee', 'prebuild-less', 'cson'])
+  grunt.registerTask('compile', ['coffee', 'cson'])
   grunt.registerTask('lint', ['coffeelint', 'csslint', 'lesslint'])
   grunt.registerTask('test', ['shell:kill-app', 'run-specs'])
 
