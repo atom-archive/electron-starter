@@ -7,7 +7,7 @@ module.exports = (grunt) ->
   grunt.registerTask 'partial-clean', 'Delete some of the build files', ->
     tmpdir = os.tmpdir()
 
-    pkgName = grunt.config.get('pkgName')
+    pkgName = grunt.config.get('name')
     rm grunt.config.get("#{pkgName}.buildDir")
 
     rm require('../src/coffee-cache').cacheDir
@@ -19,5 +19,7 @@ module.exports = (grunt) ->
     homeDir = process.env[if process.platform is 'win32' then 'USERPROFILE' else 'HOME']
 
     rm 'node_modules'
+
+    pkgName = grunt.config.get('name')
     rm path.join(homeDir, ".#{pkgName}", '.node-gyp')
     grunt.task.run('partial-clean')

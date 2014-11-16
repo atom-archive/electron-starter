@@ -103,7 +103,7 @@ module.exports = (grunt) ->
   csonConfig =
     options:
       rootObject: true
-      cachePath: path.join(home, ".#{productName}", 'compile-cache', 'grunt-cson')
+      cachePath: path.join(home, ".#{pkgName}", 'compile-cache', 'grunt-cson')
 
     glob_to_multiple:
       expand: true

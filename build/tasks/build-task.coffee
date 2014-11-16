@@ -6,7 +6,7 @@ module.exports = (grunt) ->
   {cp, isAtomPackage, mkdir, rm} = require('./task-helpers')(grunt)
 
   grunt.registerTask 'build', 'Build the application', ->
-    pkgName = grunt.config.get('pkgName')
+    pkgName = grunt.config.get('name')
 
     shellAppDir = grunt.config.get("#{pkgName}.shellAppDir")
     buildDir = grunt.config.get("#{pkgName}.buildDir")

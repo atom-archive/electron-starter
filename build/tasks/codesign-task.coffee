@@ -23,7 +23,7 @@ module.exports = (grunt) ->
     spawn {cmd, args}, (error) -> callback(error)
 
   signApp = (callback) ->
-    pkgName = grunt.config.get(pkgName)
+    pkgName = grunt.config.get('name')
     shellAppDir = grunt.config.get("#{pkgName}.shellAppDir")
     {XCODE_SIGNING_IDENTITY} = process.env
 
