@@ -40,13 +40,14 @@ module.exports = (grunt) ->
       packageJsonString = JSON.stringify(packageJson)
       fs.writeFileSync(packageJsonPath, packageJsonString)
 
+      executableName = grunt.config.get("#{pkgName}.executableName")
+
       if process.platform is 'darwin'
         cmd = 'script/set-version'
-        args = [grunt.config.get("#{pkgName}.buildDir"), version]
+        args = [grunt.config.get("#{pkgName}.buildDir"), version, executableName]
         spawn {cmd, args}, (error, result, code) -> done(error)
       else if process.platform is 'win32'
         shellAppDir = grunt.config.get("#{pkgName}.shellAppDir")
-        executableName = grunt.config.get("#{pkgName}.executableName")
         productName = grunt.config.get("#{pkgName}.productName")
 
         shellExePath = path.join(shellAppDir, executableName)
