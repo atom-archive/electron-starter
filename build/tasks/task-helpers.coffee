@@ -1,5 +1,6 @@
 fs = require 'fs-plus'
 path = require 'path'
+_ = require 'underscore-plus'
 
 module.exports = (grunt) ->
   cp: (source, destination, {filter}={}) ->
@@ -44,6 +45,11 @@ module.exports = (grunt) ->
 
   rm: (args...) ->
     grunt.file.delete(args..., force: true) if grunt.file.exists(args...)
+
+  renderTemplate: (source, target, dict) ->
+    contents = fs.readFileSync source
+    compiled = _.template(contents)
+    fs.writeFileSync(target, compiled(dict))
 
   spawn: (options, callback) ->
     childProcess = require 'child_process'
