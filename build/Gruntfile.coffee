@@ -194,7 +194,7 @@ module.exports = (grunt) ->
 
   opts[pkgName] = {appDir, appName, symbolsDir, buildDir, contentsDir, installDir, shellAppDir, productName, executableName}
 
-  grunt.initConfig(options)
+  grunt.initConfig(opts)
 
   grunt.registerTask('compile', ['coffee', 'prebuild-less', 'cson'])
   grunt.registerTask('lint', ['coffeelint', 'csslint', 'lesslint'])
@@ -211,5 +211,4 @@ module.exports = (grunt) ->
   grunt.registerTask('ci', ciTasks)
 
   defaultTasks = ['download-atom-shell', 'build', 'set-version']
-  defaultTasks.push 'install' unless process.platform is 'linux'
   grunt.registerTask('default', defaultTasks)

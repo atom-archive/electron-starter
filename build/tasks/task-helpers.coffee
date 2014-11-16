@@ -66,4 +66,3 @@ module.exports = (grunt) ->
       results = {stderr: stderr.join(''), stdout: stdout.join(''), code: exitCode}
       grunt.log.error results.stderr if exitCode != 0
       callback(error, results, exitCode)
-e
