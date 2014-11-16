@@ -11,6 +11,7 @@ module.exports = (grunt) ->
     shellAppDir = grunt.config.get("#{pkgName}.shellAppDir")
     buildDir = grunt.config.get("#{pkgName}.buildDir")
     appDir = grunt.config.get("#{pkgName}.appDir")
+    appName = grunt.config.get("#{pkgName}.appName")
     executableName = grunt.config.get("#{pkgName}.executableName")
 
     rm shellAppDir
@@ -20,9 +21,8 @@ module.exports = (grunt) ->
     switch process.platform
       when 'darwin'
         cp 'atom-shell/Atom.app', shellAppDir, filter: /default_app/
-        fs.renameSync(path.join(shellAppDir, 'Atom.app'), path.join(shellAppDir, appName))
 
-        exeDir = path.join(shellAppDir, appName, 'Contents', 'MacOS')
+        exeDir = path.join(shellAppDir, 'Contents', 'MacOS')
         fs.renameSync path.join(exeDir, 'Atom'), path.join(exeDir, executableName)
       when 'linux'
         cp 'atom-shell', shellAppDir, filter: /default_app/
