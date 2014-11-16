@@ -1,0 +1,23 @@
+Name:           <%= name %>
+Version:        <%= version %>
+Release:        0.1%{?dist}
+Summary:        <%= description %>
+License:        MIT
+URL:            <%= url %>
+AutoReqProv:    no # Avoid libchromiumcontent.so missing dependency
+
+%description
+<%= description %>
+
+%install
+mkdir -p %{buildroot}/usr/local/share/<%= executableName %>
+cp -r /tmp/atom-build/Atom/* %{buildroot}/usr/local/share/<%= executableName %>
+mkdir -p %{buildroot}/usr/local/bin/
+ln -sf %{buildroot}/usr/local/share/<%= executableName %>/<%= executableName %> /usr/local/bin
+mkdir -p %{buildroot}/usr/local/share/applications/
+mv <%= executableName %>.desktop %{buildroot}/usr/local/share/applications/
+
+%files
+/usr/local/bin/<%= executableName %>
+/usr/local/share/<%= executableName %>/
+/usr/local/share/applications/<% executableName %>.desktop
