@@ -1,0 +1,27 @@
+#!/usr/bin/env node
+
+var path = require("path");
+var exec = require("child_process").exec;
+var pkgInfo = require(path.resolve(__dirname, '..', 'package.json'));
+
+var target = path.join(process.env.TMPDIR || process.env.TEMP || '/tmp', pkgInfo.name + "-build");
+
+var theArgs = process.argv.slice(2);
+if (theArgs.length < 1) {
+  theArgs = ['-r', '.'];
+}
+
+// Linux
+var cmd = path.join(target, pkgInfo.productName, pkgInfo.name);
+
+if (process.platform === 'darwin') {
+  cmd = path.join(target, pkgInfo.productName + '.app', 'Contents', 'MacOS', pkgInfo.productName);
+}
+
+if (process.platform === 'win32') {
+  cmd = path.join(target, pkgInfo.productName, pkgInfo.productName + '.exe');
+}
+
+var toRun = cmd + " " + theArgs.join(" ");
+console.log("Running: " + toRun);
+exec(toRun);
