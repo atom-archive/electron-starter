@@ -16,6 +16,11 @@ class AppWindow
   _.extend @prototype, EventEmitter.prototype
 
   constructor: (options) ->
+    @loadSettings =
+      bootstrapScript: require.resolve '../renderer/main'
+
+    @loadSettings = _.extend(@loadSettings, options)
+
     windowOpts =
       width: 800
       height: 600
@@ -25,7 +30,7 @@ class AppWindow
         'subpixel-font-scaling': true
         'direct-write': true
 
-    windowOpts = _.extend(windowOpts, options)
+    windowOpts = _.extend(windowOpts, @loadSettings)
 
     @window = new BrowserWindow(windowOpts)
 
@@ -45,6 +50,7 @@ class AppWindow
       protocol: 'file'
       pathname: targetPath
       slashes: true
+      query: {loadSettings: JSON.stringify(@loadSettings)}
 
     @window.loadUrl targetUrl
     @window.show()
