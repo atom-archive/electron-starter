@@ -11,11 +11,11 @@ module.exports =
 class ApplicationMenu
   _.extend @prototype, EventEmitter.prototype
 
-  constructor: ->
+  constructor: (options) ->
     menuJson = season.resolve(path.join(process.resourcesPath, 'app', 'menus', process.platform))
     template = season.readFileSync(menuJson)
 
-    @template = @translateTemplate(template.menu)
+    @template = @translateTemplate(template.menu, options.pkg)
 
   attachToWindow: (window) ->
     @menu = Menu.buildFromTemplate(_.deepClone(@template))
@@ -24,15 +24,19 @@ class ApplicationMenu
   wireUpMenu: (menu, command) ->
     menu.click = => @emit(command)
 
-  translateTemplate: (template) ->
+  translateTemplate: (template, pkgJson) ->
     emitter = @emit
 
     for item in template
       item.metadata ?= {}
+
+      if item.label
+        item.label = (_.template(item.label))(pkgJson)
+
       if item.command
         @wireUpMenu item, item.command
 
-      @translateTemplate(item.submenu) if item.submenu
+      @translateTemplate(item.submenu, pkgJson) if item.submenu
 
     return template
 

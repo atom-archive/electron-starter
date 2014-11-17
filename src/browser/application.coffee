@@ -19,8 +19,10 @@ class Application
   _.extend @prototype, EventEmitter.prototype
 
   constructor: (options) ->
+    @pkgJson = require '../../package.json'
+
     @window = new AppWindow(options)
-    @menu = new AppMenu()
+    @menu = new AppMenu(pkg: @pkgJson)
 
     @window.on 'closed', (e) -> app.quit()
 
