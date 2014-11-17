@@ -19,8 +19,8 @@ class AppWindow
     windowOpts =
       width: 800
       height: 600
-      'auto-hide-menu-bar': false #process.platform is 'win32'
-      title: "Main Window"
+      'auto-hide-menu-bar': process.platform is 'win32'
+      title: options.title ? "You Should Set options.title"
       'web-preferences':
         'subpixel-font-scaling': true
         'direct-write': true
