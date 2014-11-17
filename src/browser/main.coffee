@@ -2,6 +2,7 @@ app = require 'app'
 url = require 'url'
 path = require 'path'
 optimist = require 'optimist'
+fs = require 'fs-plus'
 spawn = require('child_process').spawn
 
 BrowserWindow = require 'browser-window'
@@ -63,6 +64,9 @@ start = ->
   if (args.devMode)
     app.commandLine.appendSwitch 'remote-debugging-port', '8315'
 
+  # Note: It's important that you don't do anything with Atom Shell
+  # unless it's after 'ready', or else mysterious bad things will happen
+  # to you.
   app.on 'ready', ->
     setupCoffeeScript()
 
@@ -75,9 +79,4 @@ start = ->
     global.application = new Application(args)
     console.log("App load time: #{Date.now() - global.shellStartTime}ms") unless args.test
 
-
-# Note: It's important that you don't do anything with Atom Shell
-# unless it's after 'ready', or else mysterious bad things will happen
-# to you.
-app.on 'ready', ->
-  global.application = new Application({})
+start()
