@@ -19,6 +19,8 @@ class Application
   _.extend @prototype, EventEmitter.prototype
 
   constructor: (options) ->
+    {@resourcePath, @version, @devMode } = options
+
     @pkgJson = require '../../package.json'
 
     @window = new AppWindow(options)
