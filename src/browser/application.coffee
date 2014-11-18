@@ -9,7 +9,7 @@ url = require 'url'
 
 {EventEmitter} = require 'events'
 _ = require 'underscore-plus'
-spawn = require('child_process').spawn
+{spawn} = require 'child_process'
 
 AppMenu = require './appmenu'
 AppWindow = require './appwindow'
