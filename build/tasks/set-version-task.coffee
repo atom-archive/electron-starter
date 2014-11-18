@@ -49,6 +49,7 @@ module.exports = (grunt) ->
       else if process.platform is 'win32'
         shellAppDir = grunt.config.get("#{pkgName}.shellAppDir")
         productName = grunt.config.get("#{pkgName}.productName")
+        executableName = grunt.config.get("#{pkgName}.executableName")
 
         shellExePath = path.join(shellAppDir, executableName)
 
