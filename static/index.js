@@ -13,10 +13,6 @@ window.onload = function() {
       require('coffee-script').register();
     }
 
-    ModuleCache = require('../src/module-cache');
-    ModuleCache.register(loadSettings);
-    ModuleCache.add(loadSettings.resourcePath);
-
     require('vm-compatibility-layer');
 
     if (!loadSettings.devMode) {
