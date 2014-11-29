@@ -1,7 +1,6 @@
 app = require 'app'
 url = require 'url'
 path = require 'path'
-optimist = require 'optimist'
 fs = require 'fs-plus'
 spawn = require('child_process').spawn
 
@@ -19,16 +18,20 @@ process.on 'uncaughtException', (error={}) ->
 
 parseCommandLine = ->
   version = app.getVersion()
-  options = optimist(process.argv[1..])
-  options.usage """App Version v#{version}"""
 
-  options.alias('h', 'help').boolean('h').describe('h', 'Print this usage message.')
-  options.alias('r', 'resource-path').string('r').describe('r', 'Set the path to the Atom source directory and enable dev-mode.')
-  options.alias('v', 'version').boolean('v').describe('v', 'Print the version.')
-  args = options.argv
+  yargs = require('yargs')
+    .alias('h', 'help').boolean('h').describe('h', 'Print this usage message.')
+    .alias('r', 'resource-path').string('r').describe('r', 'Set the path to the App source directory and enable dev-mode.')
+    .alias('v', 'version').boolean('v').describe('v', 'Print the version.')
+
+  args = yargs.parse(process.argv[1..])
+
+  process.stdout.write(JSON.stringify(args) + "\n")
 
   if args.help
-    process.stdout.write(options.help())
+    help = ""
+    yargs.showHelp((s) -> help += s)
+    process.stdout.write(help + "\n")
     process.exit(0)
 
   if args.version
