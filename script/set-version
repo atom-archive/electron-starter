@@ -5,8 +5,9 @@ set -e
 BUILT_PRODUCTS_DIR=$1
 VERSION=$2
 APP_NAME=$3
+APP_NAME_WITHOUT_APP=`echo "$3" | sed -e 's/.app$//g'`
 PLIST_PATH="$BUILT_PRODUCTS_DIR/$APP_NAME/Contents/Info.plist"
-HELPER_PLIST_PATH="$BUILT_PRODUCTS_DIR/$APP_NAME/Contents/Frameworks/Atom Helper.app/Contents/Info.plist"
+HELPER_PLIST_PATH="$BUILT_PRODUCTS_DIR/$APP_NAME/Contents/Frameworks/$APP_NAME_WITHOUT_APP Helper.app/Contents/Info.plist"
 
 # Update version
 /usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString $VERSION" "$PLIST_PATH"

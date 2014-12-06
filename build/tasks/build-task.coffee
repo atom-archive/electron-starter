@@ -20,16 +20,9 @@ module.exports = (grunt) ->
 
     switch process.platform
       when 'darwin'
-        cp 'atom-shell/Atom.app', shellAppDir, filter: /default_app/
-
-        exeDir = path.join(shellAppDir, 'Contents', 'MacOS')
-        fs.renameSync path.join(exeDir, 'Atom'), path.join(exeDir, executableName)
-      when 'linux'
+        cp "atom-shell/#{appName}", shellAppDir, filter: /default_app/
+      when 'linux', 'win32'
         cp 'atom-shell', shellAppDir, filter: /default_app/
-        fs.renameSync path.join(shellAppDir, 'atom'), path.join(shellAppDir, executableName)
-      when 'win32'
-        cp 'atom-shell', shellAppDir, filter: /default_app/
-        fs.renameSync path.join(shellAppDir, 'atom.exe'), path.join(shellAppDir, executableName)
 
     cp 'package.json', path.join(appDir, 'package.json')
 
