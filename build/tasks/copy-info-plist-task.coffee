@@ -9,9 +9,11 @@ module.exports = (grunt) ->
     pkgInfo = grunt.config.get(pkgName)
 
     contentsDir = grunt.config.get("#{pkgName}.contentsDir")
+    appName = grunt.config.get("#{pkgName}.appName")
+    appNameWithoutApp = appName.replace(/.app$/, '')
 
     plistPath = path.join(contentsDir, 'Info.plist')
-    helperPlistPath = path.join(contentsDir, 'Frameworks/Atom Helper.app/Contents/Info.plist')
+    helperPlistPath = path.join(contentsDir, "Frameworks/#{appNameWithoutApp} Helper.app/Contents/Info.plist")
 
     # Copy custom plist files
     renderTemplate 'resources/mac/app-Info.plist', plistPath, pkgInfo

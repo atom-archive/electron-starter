@@ -23,7 +23,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-contrib-coffee')
   grunt.loadNpmTasks('grunt-contrib-less')
   grunt.loadNpmTasks('grunt-shell')
-  grunt.loadNpmTasks('grunt-download-atom-shell')
+  grunt.loadNpmTasks('grunt-build-atom-shell')
   grunt.loadNpmTasks('grunt-atom-shell-installer')
   grunt.loadNpmTasks('grunt-peg')
   grunt.loadTasks('tasks')
@@ -165,11 +165,13 @@ module.exports = (grunt) ->
         'static/**/*.less'
       ]
 
-    'download-atom-shell':
-      version: packageJson.atomShellVersion
-      outputDir: 'atom-shell'
-      downloadDir: atomShellDownloadDir
-      rebuild: true  # rebuild native modules after atom-shell is updated
+    'build-atom-shell':
+      tag: "dont-hardcode-atom-helper"
+      remoteUrl: "https://github.com/paulcbetts/atom-shell"
+      buildDir: buildDir
+      rebuildPackages: true
+      projectName: pkgName
+      productName: productName
 
     'create-windows-installer':
       appDirectory: shellAppDir
@@ -193,7 +195,7 @@ module.exports = (grunt) ->
   grunt.registerTask('lint', ['coffeelint', 'csslint', 'lesslint'])
   grunt.registerTask('test', ['shell:kill-app', 'run-specs'])
 
-  ciTasks = ['output-disk-space', 'download-atom-shell', 'build']
+  ciTasks = ['output-disk-space', 'build-atom-shell', 'build']
   ciTasks.push('dump-symbols') if process.platform isnt 'win32'
   ciTasks.push('set-version', 'check-licenses', 'lint')
   ciTasks.push('mkdeb') if process.platform is 'linux'
@@ -203,5 +205,5 @@ module.exports = (grunt) ->
   ciTasks.push('publish-build')
   grunt.registerTask('ci', ciTasks)
 
-  defaultTasks = ['download-atom-shell', 'build', 'set-version']
+  defaultTasks = ['build-atom-shell', 'build', 'set-version']
   grunt.registerTask('default', defaultTasks)
