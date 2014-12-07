@@ -16,6 +16,7 @@ packageJson = require '../package.json'
 _.extend(global, require('harmony-collections')) unless global.WeakMap?
 
 module.exports = (grunt) ->
+  grunt.loadNpmTasks('grunt-bower-task')
   grunt.loadNpmTasks('grunt-coffeelint')
   grunt.loadNpmTasks('grunt-lesslint')
   grunt.loadNpmTasks('grunt-cson')
@@ -165,7 +166,7 @@ module.exports = (grunt) ->
         'static/**/*.less'
       ]
 
-    # NB: This can be switched to official Atom Shell once atom/atom-shell#898 
+    # NB: This can be switched to official Atom Shell once atom/atom-shell#898
     # gets merged
     'build-atom-shell':
       tag: "dont-hardcode-atom-helper"
@@ -180,6 +181,11 @@ module.exports = (grunt) ->
       outputDirectory: path.join(buildDir, 'installer')
       authors: packageJson.author
       iconUrl: packageJson.iconUrl ? 'https://raw.githubusercontent.com/atom/atom/master/resources/atom.png'
+
+    bower:
+      install:
+        options:
+          targetDir: 'static/components'
 
     shell:
       'kill-app':
@@ -197,7 +203,7 @@ module.exports = (grunt) ->
   grunt.registerTask('lint', ['coffeelint', 'csslint', 'lesslint'])
   grunt.registerTask('test', ['shell:kill-app', 'run-specs'])
 
-  ciTasks = ['output-disk-space', 'build-atom-shell', 'build']
+  ciTasks = ['output-disk-space', 'build-atom-shell', 'bower:install', 'build']
   ciTasks.push('dump-symbols') if process.platform isnt 'win32'
   ciTasks.push('set-version', 'check-licenses', 'lint')
   ciTasks.push('mkdeb') if process.platform is 'linux'
@@ -207,5 +213,5 @@ module.exports = (grunt) ->
   ciTasks.push('publish-build')
   grunt.registerTask('ci', ciTasks)
 
-  defaultTasks = ['build-atom-shell', 'build', 'set-version']
+  defaultTasks = ['build-atom-shell', 'bower:install', 'build', 'set-version']
   grunt.registerTask('default', defaultTasks)
