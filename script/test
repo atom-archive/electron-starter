@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 var safeExec = require('./utils/child-process-wrapper.js').safeExec;
 var path = require('path');
+require('./utils/config')
 
 process.chdir(path.dirname(__dirname));
 

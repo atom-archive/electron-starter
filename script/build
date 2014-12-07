@@ -2,6 +2,8 @@
 var cp = require('./utils/child-process-wrapper.js');
 var path = require('path');
 
+require('./utils/config')
+
 process.chdir(path.dirname(__dirname));
 
 cp.safeExec('node script/bootstrap', function() {

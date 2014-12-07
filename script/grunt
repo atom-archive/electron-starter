@@ -3,6 +3,8 @@ var cp = require('./utils/child-process-wrapper.js');
 var fs = require('fs');
 var path = require('path');
 
+require('./utils/config')
+
 // node build/node_modules/.bin/grunt "$@"
 var gruntPath = path.resolve(__dirname, '..', 'build', 'node_modules', '.bin', 'grunt') + (process.platform === 'win32' ? '.cmd' : '');
 

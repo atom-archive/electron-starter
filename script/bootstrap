@@ -5,6 +5,8 @@ var verifyRequirements = require('./utils/verify-requirements');
 var safeExec = require('./utils/child-process-wrapper.js').safeExec;
 var path = require('path');
 
+require('./utils/config')
+
 // Executes an array of commands one by one.
 function executeCommands(commands, done, index) {
   index = (index == undefined ? 0 : index);

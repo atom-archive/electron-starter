@@ -4,6 +4,8 @@ var fs = require('fs');
 var path = require('path');
 var os = require('os');
 
+require('./utils/config')
+
 var removeCommand = process.platform === 'win32' ? 'rmdir /S /Q ' : 'rm -rf ';
 var packageJson = require('../package.json');
 var productName = packageJson.productName;

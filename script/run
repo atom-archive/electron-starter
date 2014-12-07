@@ -2,6 +2,8 @@
 
 var path = require("path");
 var exec = require("child_process").exec;
+require('./utils/config')
+
 var pkgInfo = require(path.resolve(__dirname, '..', 'package.json'));
 
 var target = path.join(process.env.TMPDIR || process.env.TEMP || '/tmp', pkgInfo.name + "-build");
