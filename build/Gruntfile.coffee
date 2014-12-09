@@ -3,7 +3,7 @@ path = require 'path'
 os = require 'os'
 _ = require 'underscore-plus'
 
-# Add support for obselete APIs of vm module so we can make some third-party
+# Add support for obsolete APIs of vm module so we can make some third-party
 # modules work under node v0.11.x.
 require 'vm-compatibility-layer'
 

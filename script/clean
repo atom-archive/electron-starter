@@ -15,7 +15,7 @@ process.chdir(path.dirname(__dirname));
 var home = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'];
 var tmpdir = os.tmpdir();
 
-// Windows: Use START as a way to ignore error if YOURAPP.exe isnt running
+// Windows: Use START as a way to ignore error if YOURAPP.exe isn't running
 var killatom = process.platform === 'win32' ? 'START taskkill /F /IM ' + productName + '.exe' : 'pkill -9 ' + productName + ' || true';
 
 var dotName = '.' + name;
