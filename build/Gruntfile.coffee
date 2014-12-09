@@ -162,8 +162,6 @@ module.exports = (grunt) ->
         'static/**/*.less'
       ]
 
-    # NB: This can be switched to official Atom Shell once atom/atom-shell#898
-    # gets merged
     'build-atom-shell':
       tag: "7fdd94520e21d4d07095ebedd23139ed0588d673"
       remoteUrl: "https://github.com/atom/atom-shell"
