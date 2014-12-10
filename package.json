@@ -45,6 +45,10 @@
   "private": true,
   "scripts": {
     "preinstall": "node -e 'process.exit(0)'",
-    "test": "node script/test"
+    "test": "node script/test",
+    "bootstrap": "node script/bootstrap",
+    "build": "node script/build",
+    "run": "node script/run",
+    "clean": "node script/clean"
   }
 }
