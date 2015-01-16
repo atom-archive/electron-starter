@@ -1,5 +1,4 @@
-
-describe "Task", ->
-  describe "@once(taskPath, args..., callback)", ->
-    it "terminates the process after it completes", ->
-        expect('handlerResult').toBe 'hello'
+describe "Atom shell starter", ->
+  describe "Say", ->
+    it "hello", ->
+        expect('hello').toBe 'hello'

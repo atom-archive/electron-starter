@@ -23,15 +23,25 @@ class Application
 
     @pkgJson = require '../../package.json'
 
-    @window = new AppWindow(options)
-    @menu = new AppMenu(pkg: @pkgJson)
+    @openWithOptions(options)
 
-    @window.on 'closed', (e) -> app.quit()
+  # Opens a new window based on the options provided.
+  openWithOptions: (options) ->
+    {devMode, test, specDirectory, logFile} = options
 
-    @window.show()
 
-    @menu.attachToWindow @window
-    @handleMenuItems(@menu, @window)
+    if test
+      @runSpecs({exitWhenDone: true, @resourcePath, specDirectory, devMode, logFile})
+    else
+      @window = new AppWindow(options)
+      @menu = new AppMenu(pkg: @pkgJson)
+
+      @window.on 'closed', (e) -> app.quit()
+
+      @window.show()
+
+      @menu.attachToWindow @window
+      @handleMenuItems(@menu, @window)
 
   handleMenuItems: (menu, thisWindow) ->
     menu.on 'application:quit', -> app.quit()
@@ -48,3 +58,23 @@ class Application
   reload: -> @window.reload()
 
   exit: (status) -> app.exit(status)
+
+  # Opens up a new {AtomWindow} to run specs within.
+  #
+  # options -
+  #   :exitWhenDone - A Boolean that, if true, will close the window upon
+  #                   completion.
+  #   :resourcePath - The path to include specs from.
+  #   :specPath - The directory to load specs from.
+  runSpecs: ({exitWhenDone, resourcePath, specDirectory, logFile}) ->
+    if resourcePath isnt @resourcePath and not fs.existsSync(resourcePath)
+      resourcePath = @resourcePath
+
+    try
+      bootstrapScript = require.resolve(path.resolve(global.devResourcePath, 'spec', 'spec-bootstrap'))
+    catch error
+      bootstrapScript = require.resolve(path.resolve(__dirname, '..', '..', 'spec', 'spec-bootstrap'))
+
+    isSpec = true
+    devMode = true
+    new AppWindow({bootstrapScript, resourcePath, exitWhenDone, isSpec, devMode, specDirectory, logFile})
