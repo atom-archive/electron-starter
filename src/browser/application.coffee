@@ -26,8 +26,6 @@ class Application
     @window = new AppWindow(options)
     @menu = new AppMenu(pkg: @pkgJson)
 
-    @window.on 'closed', (e) -> app.quit()
-
     @window.show()
 
     @menu.attachToWindow @window
