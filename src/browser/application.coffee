@@ -30,15 +30,16 @@ class Application
     {devMode, test, specDirectory, logFile} = options
 
     if test
-      @runSpecs({exitWhenDone: true, @resourcePath, specDirectory, devMode, logFile})
+      @window = @runSpecs({exitWhenDone: true, @resourcePath, specDirectory, devMode, logFile})
     else
       @window = new AppWindow(options)
       @menu = new AppMenu(pkg: @pkgJson)
 
-      @window.show()
 
       @menu.attachToWindow @window
       @handleMenuItems(@menu, @window)
+
+    @window.show()
 
   handleMenuItems: (menu, thisWindow) ->
     menu.on 'application:quit', -> app.quit()
