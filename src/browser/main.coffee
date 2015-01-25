@@ -93,6 +93,7 @@ start = ->
   # to you.
   app.on 'ready', ->
     setupCoffeeScript()
+
     if args.devMode
       require(path.join(args.resourcePath, 'src', 'coffee-cache')).register()
       Application = require path.join(args.resourcePath, 'src', 'browser', 'application')
