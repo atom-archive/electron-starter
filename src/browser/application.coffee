@@ -55,6 +55,9 @@ class Application
     menu.on 'window:toggle-dev-tools', ->
       thisWindow.toggleDevTools()
 
+    menu.on 'application:run-specs', =>
+      @openWithOptions(test: true)
+
   reload: -> @window.reload()
 
   exit: (status) -> app.exit(status)
