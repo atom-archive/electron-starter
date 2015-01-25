@@ -68,7 +68,7 @@ parseCommandLine = ->
 
   resourcePath = path.resolve(resourcePath)
 
-  {resourcePath, version, devMode, test, devMode, specDirectory, logFile}
+  {resourcePath, version, devMode, test, specDirectory, logFile}
 
 setupCoffeeScript = ->
   CoffeeScript = null
