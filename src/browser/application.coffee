@@ -29,14 +29,11 @@ class Application
   openWithOptions: (options) ->
     {devMode, test, specDirectory, logFile} = options
 
-
     if test
       @runSpecs({exitWhenDone: true, @resourcePath, specDirectory, devMode, logFile})
     else
       @window = new AppWindow(options)
       @menu = new AppMenu(pkg: @pkgJson)
-
-      @window.on 'closed', (e) -> app.quit()
 
       @window.show()
 

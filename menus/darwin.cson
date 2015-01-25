@@ -19,7 +19,7 @@
     label: 'Edit'
     submenu: [
       { label: 'Undo', selector: 'undo:', accelerator: 'Command+Z' }
-      { label: 'Redo', selector: 'redo:', accelerator: 'Shift-Command+Z' }
+      { label: 'Redo', selector: 'redo:', accelerator: 'Shift+Command+Z' }
       { type: 'separator' }
       { label: 'Cut', selector: 'cut:', accelerator: 'Command+X' }
       { label: 'Copy', selector: 'copy:', accelerator: 'Command+C' }
