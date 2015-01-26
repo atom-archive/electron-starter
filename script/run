@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var path = require("path");
-var exec = require("child_process").exec;
+var spawn = require("child_process").spawn;
 require('./utils/config')
 
 var pkgInfo = require(path.resolve(__dirname, '..', 'package.json'));
@@ -26,4 +26,13 @@ if (process.platform === 'win32') {
 
 var toRun = cmd + " " + theArgs.join(" ");
 console.log("Running: " + toRun);
-exec(toRun);
+var child = spawn(cmd, theArgs);
+child.stdout.on('data', function(data) {
+  console.log(data.toString());
+});
+child.stderr.on('data', function(data) {
+  console.error(data.toString());
+});
+child.on('close', function(data) {
+  process.exit(0);
+});
