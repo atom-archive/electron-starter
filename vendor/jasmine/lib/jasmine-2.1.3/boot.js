@@ -99,8 +99,10 @@
    *
    * Run inline.
    */
-  htmlReporter.initialize();
-  env.execute();
+  window.jasmineExecute = function(){
+    htmlReporter.initialize();
+    env.execute();
+  }
 
   /**
    * Helper function for readability above.
