@@ -42,7 +42,7 @@ class Application
 
     window.show()
 
-  handleMenuItems: (menu, thisWindow) ->
+  handleMenuItems: (menu) ->
     menu.on 'application:quit', -> app.quit()
 
     menu.on 'window:reload', ->
