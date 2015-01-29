@@ -57,8 +57,6 @@ class Application
     menu.on 'application:run-specs', =>
       @openWithOptions(test: true)
 
-  reload: -> @window.reload()
-
   exit: (status) -> app.exit(status)
 
   # Opens up a new {AtomWindow} to run specs within.
