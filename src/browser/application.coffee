@@ -1,4 +1,5 @@
 Menu = require 'menu'
+BrowserWindow = require 'browser-window'
 app = require 'app'
 fs = require 'fs'
 ipc = require 'ipc'
@@ -30,28 +31,28 @@ class Application
     {devMode, test, specDirectory, logFile} = options
 
     if test
-      @window = @runSpecs({exitWhenDone: true, @resourcePath, specDirectory, devMode, logFile})
+      window = @runSpecs({exitWhenDone: true, @resourcePath, specDirectory, devMode, logFile})
     else
-      @window = new AppWindow(options)
+      window = new AppWindow(options)
       @menu = new AppMenu(pkg: @pkgJson)
 
 
-      @menu.attachToWindow @window
-      @handleMenuItems(@menu, @window)
+      @menu.attachToWindow window
+      @handleMenuItems(@menu)
 
-    @window.show()
+    window.show()
 
   handleMenuItems: (menu, thisWindow) ->
     menu.on 'application:quit', -> app.quit()
 
     menu.on 'window:reload', ->
-      thisWindow.reload()
+      BrowserWindow.getFocusedWindow().reload()
 
     menu.on 'window:toggle-full-screen', ->
-      thisWindow.toggleFullScreen()
+      BrowserWindow.getFocusedWindow().toggleFullScreen()
 
     menu.on 'window:toggle-dev-tools', ->
-      thisWindow.toggleDevTools()
+      BrowserWindow.getFocusedWindow().toggleDevTools()
 
     menu.on 'application:run-specs', =>
       @openWithOptions(test: true)
