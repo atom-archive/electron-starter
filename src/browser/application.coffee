@@ -37,7 +37,7 @@ class Application
       @menu = new AppMenu(pkg: @pkgJson)
 
 
-      @menu.attachToWindow window
+      @menu.attachToWindow(window)
       @handleMenuItems(@menu)
 
     window.show()
