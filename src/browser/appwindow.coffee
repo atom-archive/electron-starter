@@ -17,7 +17,7 @@ class AppWindow
 
   constructor: (options) ->
     @loadSettings =
-      bootstrapScript: require.resolve '../renderer/main'
+      bootstrapScript: require.resolve path.join(options.resourcePath, 'src', 'main')
 
     @loadSettings = _.extend(@loadSettings, options)
 
