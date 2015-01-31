@@ -23,6 +23,7 @@ class Application
     {@resourcePath, @version, @devMode } = options
 
     @pkgJson = require '../../package.json'
+    @windows = []
 
     @openWithOptions(options)
 
@@ -40,6 +41,7 @@ class Application
       @handleMenuItems(@menu)
 
     appWindow.show()
+    @windows.push(appWindow)
 
   handleMenuItems: (menu) ->
     menu.on 'application:quit', -> app.quit()
