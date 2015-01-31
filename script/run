@@ -3,25 +3,43 @@
 var path = require("path");
 var spawn = require("child_process").spawn;
 require('./utils/config')
-
-var pkgInfo = require(path.resolve(__dirname, '..', 'package.json'));
-
-var target = path.join(process.env.TMPDIR || process.env.TEMP || '/tmp', pkgInfo.name + "-build");
-
 var theArgs = process.argv.slice(2);
 if (theArgs.length < 1) {
   theArgs = ['-r', '.'];
 }
 
+var i = 0
+var appConfig = null
+var pkgInfo = require(path.resolve(__dirname, '..', 'package.json'));
+var name = pkgInfo.name;
+var productName = pkgInfo.productName;
+
+while (i < theArgs.length && theArgs[i] !== '--app-config') i++;
+if (theArgs[i] === '--app-config' && theArgs[i + 1]) {
+  try {
+    appConfig = JSON.parse(theArgs[i + 1])
+  } catch (error) {
+    console.error(error.message);
+  }
+  theArgs.splice(i, 2)
+}
+
+if (appConfig && appConfig.name)
+  name = appConfig.name;
+if (appConfig && appConfig.productName)
+  productName = appConfig.productName;
+
+var target = path.join(process.env.TMPDIR || process.env.TEMP || '/tmp', name + "-build");
+
 // Linux
-var cmd = path.join(target, pkgInfo.productName, pkgInfo.name);
+var cmd = path.join(target, productName, name);
 
 if (process.platform === 'darwin') {
-  cmd = path.join(target, pkgInfo.productName + '.app', 'Contents', 'MacOS', pkgInfo.productName);
+  cmd = path.join(target, productName + '.app', 'Contents', 'MacOS', productName);
 }
 
 if (process.platform === 'win32') {
-  cmd = path.join(target, pkgInfo.productName, pkgInfo.productName + '.exe');
+  cmd = path.join(target, productName, productName + '.exe');
 }
 
 var toRun = cmd + " " + theArgs.join(" ");
