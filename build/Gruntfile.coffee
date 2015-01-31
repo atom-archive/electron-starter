@@ -32,11 +32,26 @@ module.exports = (grunt) ->
     grunt.log.writeln = (args...) -> grunt.log
     grunt.log.write = (args...) -> grunt.log
 
-  [major, minor, patch] = packageJson.version.split('.')
+  appConfigString = grunt.option('app-config')
+  if appConfigString?
+    try
+      appConfig = JSON.parse(appConfigString)
+    catch error
+      grunt.log.writeln 'Failed to parse JSON app-config:', error.message
+      grunt.log.writeln error.stack
+
+    grunt.log.writeln "Using #{Object.keys(appConfig)} from appConfig"
+
+  {version, author, iconUrl, name, productName} = appConfig if appConfig?
+  pkgName = name ? packageJson.name
+  version ?= packageJson.version
+  productName ?= packageJson.productName
+  author ?= packageJson.author
+  iconUrl ?= packageJson.iconUrl
+
+  [major, minor, patch] = version.split('.')
   tmpDir = os.tmpdir()
 
-  pkgName = packageJson.name
-  productName = packageJson.productName
   appName = if process.platform is 'darwin' then "#{productName}.app" else productName
   executableName = if process.platform is 'win32' then "#{productName}.exe" else productName
   executableName = executableName.toLowerCase() if process.platform is 'linux'
@@ -174,8 +189,8 @@ module.exports = (grunt) ->
     'create-windows-installer':
       appDirectory: shellAppDir
       outputDirectory: path.join(buildDir, 'installer')
-      authors: packageJson.author
-      iconUrl: packageJson.iconUrl ? 'https://raw.githubusercontent.com/atom/atom/master/resources/atom.png'
+      authors: author
+      iconUrl: iconUrl ? 'https://raw.githubusercontent.com/atom/atom/master/resources/atom.png'
 
     bower:
       install:
