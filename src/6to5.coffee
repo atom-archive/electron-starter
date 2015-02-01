@@ -40,8 +40,6 @@ defaultOptions =
     # Target a version of the regenerator runtime that
     # supports yield so the transpiled code is cleaner/smaller.
     'asyncToGenerator'
-    'undefinedToVoid'
-    'undeclaredVariableCheck'
   ]
 
 ###
