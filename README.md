@@ -19,6 +19,10 @@ Once you've set that up, do:
 
 Another useful script is `script/grunt`, which will run the local version of Grunt. `script/grunt --help` will tell you the list of available tasks.
 
+### Using JavaScript ES6
+
+JavaScript ES6 / ESNext is available via the 6to5 project for almost all files except for very early in startup. To use it, add `'use 6to5';` to the top of your file. Check out https://6to5.org for more information. 
+
 ### What's the "browser" vs "renderer" code?
 
 Atom Shell has (at least) two separate contexts - when your app first starts up, it is running in a DOM-less node.js loop - there are no windows. This is called the *Browser* context. The built-in code proceeds to start up a `BrowserWindow` object, which then creates a *Rendering* context, which is what you are more used to - it's got the Chrome DevTools and a DOM, yet it can *still* use node.js, as well as several Atom Shell APIs that are made available. Check out the [documentation for Atom Shell](https://github.com/atom/atom-shell/tree/master/docs/api) for more about what you can do.
