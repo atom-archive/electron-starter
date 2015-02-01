@@ -18,6 +18,7 @@
     }
   ],
   "dependencies": {
+    "6to5-core": "^3.0.14",
     "async": "0.2.6",
     "coffee-script": "1.7.0",
     "coffeestack": "0.7.0",
