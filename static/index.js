@@ -11,12 +11,14 @@ window.onload = function() {
     // Require before the module cache in dev mode
     if (loadSettings.devMode) {
       require('coffee-script').register();
+      require('../src/6to5').register();
     }
 
     require('vm-compatibility-layer');
 
     if (!loadSettings.devMode) {
       require('coffee-script').register();
+      require('../src/6to5').register();
     }
 
     require('../src/coffee-cache').register();
