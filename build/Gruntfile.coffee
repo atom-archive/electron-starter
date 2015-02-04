@@ -163,7 +163,7 @@ module.exports = (grunt) ->
       ]
 
     'build-atom-shell':
-      tag: "13c887d"
+      tag: "6dac8da"
       nodeVersion: '0.21.0'
       remoteUrl: "https://github.com/atom/atom-shell"
       buildDir: buildDir
