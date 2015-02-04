@@ -20,8 +20,12 @@ parseCommandLine = ->
   version = app.getVersion()
 
   yargs = require('yargs')
+    .alias('d', 'dev').boolean('d').describe('d', 'Run in development mode.')
     .alias('h', 'help').boolean('h').describe('h', 'Print this usage message.')
+    .alias('l', 'log-file').string('l').describe('l', 'Log all output to file.')
     .alias('r', 'resource-path').string('r').describe('r', 'Set the path to the App source directory and enable dev-mode.')
+    .alias('s', 'spec-directory').string('s').describe('s', 'Set the directory from which to run package specs (default: Atom\'s spec directory).')
+    .alias('t', 'test').boolean('t').describe('t', 'Run the specified specs and exit with error code on failures.')
     .alias('v', 'version').boolean('v').describe('v', 'Print the version.')
 
   args = yargs.parse(process.argv[1..])
@@ -38,16 +42,33 @@ parseCommandLine = ->
     process.stdout.write("#{version}\n")
     process.exit(0)
 
+  devMode = args['dev']
+  test = args['test']
+  specDirectory = args['spec-directory']
+  logFile = args['log-file']
+
   if args['resource-path']
     devMode = true
     resourcePath = args['resource-path']
+  else
+    # Set resourcePath based on the specDirectory if running specs on atom core
+    if specDirectory?
+      packageDirectoryPath = path.join(specDirectory, '..')
+      packageManifestPath = path.join(packageDirectoryPath, 'package.json')
+      if fs.statSyncNoException(packageManifestPath)
+        try
+          packageManifest = JSON.parse(fs.readFileSync(packageManifestPath))
+          resourcePath = packageDirectoryPath if packageManifest.name is 'atom'
+
+    if devMode
+      resourcePath ?= global.devResourcePath
 
   unless fs.statSyncNoException(resourcePath)
     resourcePath = path.dirname(path.dirname(__dirname))
 
   resourcePath = path.resolve(resourcePath)
 
-  {resourcePath, version, devMode}
+  {resourcePath, version, devMode, test, specDirectory, logFile}
 
 setupCoffeeScript = ->
   CoffeeScript = null
