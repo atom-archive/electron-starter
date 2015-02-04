@@ -42,6 +42,8 @@ class Application
 
     appWindow.show()
     @windows.push(appWindow)
+    appWindow.on 'closed', =>
+      @removeAppWindow(appWindow)
 
   handleMenuItems: (menu) ->
     menu.on 'application:quit', -> app.quit()
@@ -57,6 +59,9 @@ class Application
 
     menu.on 'application:run-specs', =>
       @openWithOptions(test: true)
+
+  removeAppWindow: (appWindow) =>
+    @windows.splice(idx, 1) for w, idx in @windows when w is appWindow
 
   # Opens up a new {AtomWindow} to run specs within.
   #
