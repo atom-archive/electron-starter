@@ -18,6 +18,7 @@
     }
   ],
   "dependencies": {
+    "6to5-core": "^3.0.14",
     "async": "0.2.6",
     "coffee-script": "1.7.0",
     "coffeestack": "0.7.0",
@@ -29,11 +30,10 @@
     "less-cache": "0.17.0",
     "mixto": "^1",
     "mkdirp": "0.3.5",
-    "nslog": "^1.0.1",
+    "nslog": "^2.0.0",
     "property-accessors": "^1",
     "q": "^1.0.1",
-    "runas": "1.0.1",
-    "scrollbar-style": "^1.0.2",
+    "runas": "^2.0.0",
     "season": "^1.0.2",
     "semver": "2.2.1",
     "serializable": "^1",

@@ -1,15 +1,17 @@
 #!/usr/bin/env node
 
+require('./utils/config.js');
+rimraf = require('./utils/rimraf.js');
+
 var fs = require('fs');
 var verifyRequirements = require('./utils/verify-requirements');
 var safeExec = require('./utils/child-process-wrapper.js').safeExec;
 var path = require('path');
-
-require('./utils/config')
+var pkg = require('../package.json');
 
 // Executes an array of commands one by one.
 function executeCommands(commands, done, index) {
-  index = (index == undefined ? 0 : index);
+  index = (index === undefined ? 0 : index);
   if (index < commands.length) {
     var command = commands[index];
     if (command.message)
@@ -23,6 +25,26 @@ function executeCommands(commands, done, index) {
   }
   else
     done(null);
+}
+
+function copyFileSync(srcFile, destFile) {
+  var BUF_LENGTH, buff, bytesRead, fdr, fdw, pos;
+  BUF_LENGTH = 64 * 1024;
+  buff = new Buffer(BUF_LENGTH);
+
+  fdr = fs.openSync(srcFile, 'r');
+  fdw = fs.openSync(destFile, 'w');
+  bytesRead = 1;
+  pos = 0;
+
+  while (bytesRead > 0) {
+    bytesRead = fs.readSync(fdr, buff, 0, BUF_LENGTH, pos);
+    fs.writeSync(fdw, buff, 0, bytesRead);
+    pos += bytesRead;
+  }
+
+  fs.closeSync(fdr);
+  return fs.closeSync(fdw);
 }
 
 function bootstrap() {
@@ -85,6 +107,13 @@ function bootstrap() {
       }
     },
   ];
+
+  var tmpDir = process.env.TMPDIR || process.env.TEMP || '/tmp';
+  var buildDir = path.join(tmpDir, pkg.name + '-build');
+
+  if (fs.existsSync(buildDir) && !process.env.JENKINS_URL) {
+    rimraf.sync(buildDir);
+  }
 
   process.chdir(path.dirname(__dirname));
   executeCommands(commands, process.exit);

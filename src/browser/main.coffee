@@ -94,6 +94,7 @@ start = ->
   # to you.
   app.on 'ready', ->
     setupCoffeeScript()
+    require('../6to5').register()
 
     if args.devMode
       require(path.join(args.resourcePath, 'src', 'coffee-cache')).register()

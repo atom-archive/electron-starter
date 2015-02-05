@@ -1,13 +1,12 @@
 {
   "max_line_length": {
-    "value": 140,
-    "level": "warn"
+    "level": "ignore"
   },
   "no_empty_param_list": {
     "level": "error"
   },
   "missing_fat_arrows": {
-    "level": "warn"
+    "level": "ignore"
   },
   "arrow_spacing": {
     "level": "error"
