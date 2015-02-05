@@ -79,8 +79,8 @@ class Application
     reporter = new jasmineFn.ConsoleReporter
       print: (str) ->
         console.log(str)
-      onComplete: (runner) ->
-        app.exit()
+      onComplete: (allPassed) ->
+        app.exit(if allPassed then 0 else 1)
 
     jasmineEnv = jasmine.getEnv()
     jasmineEnv.addReporter(reporter)
