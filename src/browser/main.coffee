@@ -44,6 +44,7 @@ parseCommandLine = ->
 
   devMode = args['dev']
   test = args['test']
+  exitWhenDone = if test then true else false
   specDirectory = args['spec-directory']
   logFile = args['log-file']
 
@@ -68,7 +69,7 @@ parseCommandLine = ->
 
   resourcePath = path.resolve(resourcePath)
 
-  {resourcePath, version, devMode, test, specDirectory, logFile}
+  {resourcePath, version, devMode, test, exitWhenDone, specDirectory, logFile}
 
 setupCoffeeScript = ->
   CoffeeScript = null

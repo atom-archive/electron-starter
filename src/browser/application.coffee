@@ -1,7 +1,7 @@
 Menu = require 'menu'
 BrowserWindow = require 'browser-window'
 app = require 'app'
-fs = require 'fs'
+fs = require 'fs-plus'
 ipc = require 'ipc'
 path = require 'path'
 os = require 'os'
@@ -29,10 +29,13 @@ class Application
 
   # Opens a new window based on the options provided.
   openWithOptions: (options) ->
-    {devMode, test, specDirectory, logFile} = options
+    {devMode, test, exitWhenDone, specDirectory, logFile} = options
+
+    if exitWhenDone
+      return @runSpecsInConsoleAndExit({@resourcePath, specDirectory, devMode, logFile})
 
     if test
-      appWindow = @runSpecs({exitWhenDone: true, @resourcePath, specDirectory, devMode, logFile})
+      appWindow = @runSpecsInWindow({@resourcePath, specDirectory, devMode, logFile})
     else
       appWindow = new AppWindow(options)
       @menu = new AppMenu(pkg: @pkgJson)
@@ -63,14 +66,37 @@ class Application
   removeAppWindow: (appWindow) =>
     @windows.splice(idx, 1) for w, idx in @windows when w is appWindow
 
+  # Runs the Jasmine terminal report and exits.
+  #
+  # options -
+  #   :resourcePath - The path to include specs from.
+  #   :specPath - The directory to load specs from.
+  #   :logfile - The file path to log output to.
+  runSpecsInConsoleAndExit: ({resourcePath, specDirectory, logFile}) ->
+    jasmineFn = require 'jasmine'
+    jasmineFn(global.jasmine)
+
+    reporter = new jasmineFn.ConsoleReporter
+      print: (str) ->
+        console.log(str)
+      onComplete: (runner) ->
+        app.exit()
+
+    jasmineEnv = jasmine.getEnv()
+    jasmineEnv.addReporter(reporter)
+
+    for specFilePath in fs.listTreeSync('spec/') when /-spec\.(coffee|js)$/.test specFilePath
+      require path.join(resourcePath, specFilePath)
+
+    jasmineEnv.execute()
+
   # Opens up a new {AtomWindow} to run specs within.
   #
   # options -
-  #   :exitWhenDone - A Boolean that, if true, will close the window upon
-  #                   completion.
   #   :resourcePath - The path to include specs from.
   #   :specPath - The directory to load specs from.
-  runSpecs: ({exitWhenDone, resourcePath, specDirectory, logFile}) ->
+  #   :logfile - The file path to log output to.
+  runSpecsInWindow: ({resourcePath, specDirectory, logFile}) ->
     if resourcePath isnt @resourcePath and not fs.existsSync(resourcePath)
       resourcePath = @resourcePath
 
@@ -81,4 +107,4 @@ class Application
 
     isSpec = true
     devMode = true
-    new AppWindow({bootstrapScript, resourcePath, exitWhenDone, isSpec, devMode, specDirectory, logFile})
+    new AppWindow({bootstrapScript, resourcePath, isSpec, devMode, specDirectory, logFile})
