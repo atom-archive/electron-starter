@@ -33,6 +33,6 @@ child.stdout.on('data', function(data) {
 child.stderr.on('data', function(data) {
   console.error(data.toString());
 });
-child.on('close', function(data) {
-  process.exit(0);
+child.on('close', function(exitValue) {
+  process.exit(exitValue);
 });
