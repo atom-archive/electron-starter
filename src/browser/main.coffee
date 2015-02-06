@@ -44,7 +44,7 @@ parseCommandLine = ->
 
   devMode = args['dev']
   test = args['test']
-  exitWhenDone = if test then true else false
+  exitWhenDone = test
   specDirectory = args['spec-directory']
   logFile = args['log-file']
 
