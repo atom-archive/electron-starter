@@ -119,7 +119,7 @@ createOptions = (filePath) ->
 # either generated on the fly or pulled from cache.
 loadFile = (module, filePath) ->
   sourceCode = fs.readFileSync(filePath, 'utf8')
-  unless sourceCode.startsWith('"use 6to5"') or sourceCode.startsWith("'use 6to5'")
+  unless /^("use 6to5"|'use 6to5')/.test(sourceCode)
     module._compile(sourceCode, filePath)
     return
 
