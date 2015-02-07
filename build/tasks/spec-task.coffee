@@ -4,20 +4,6 @@ path = require 'path'
 module.exports = (grunt) ->
   {spawn} = require('./task-helpers')(grunt)
 
-  logDeprecations = (label, {stderr}={}) ->
-     return unless process.env.JANKY_SHA1
-     stderr ?= ''
-     deprecatedStart = stderr.indexOf('Calls to deprecated functions')
-     return if deprecatedStart is -1
-
-     grunt.log.error(label)
-     stderr = stderr.substring(deprecatedStart)
-     stderr = stderr.replace(/^\s*\[[^\]]+\]\s+/gm, '')
-     stderr = stderr.replace(/source: .*$/gm, '')
-     stderr = stderr.replace(/^"/gm, '')
-     stderr = stderr.replace(/",\s*$/gm, '')
-     grunt.log.error(stderr)
-
   getAppPath = ->
     pkgName = grunt.config.get 'name'
 
@@ -48,9 +34,6 @@ module.exports = (grunt) ->
       if process.platform is 'win32'
         process.stderr.write(fs.readFileSync('ci.log')) if error
         fs.unlinkSync('ci.log')
-      else
-        # TODO: Restore concurrency on Windows
-        logDeprecations('Core Specs', results)
 
       callback(null, error)
 
