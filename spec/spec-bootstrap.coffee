@@ -8,8 +8,7 @@ app = remote.require 'app'
 # Start the crash reporter before anything else.
 require('crash-reporter').start(productName: @pkgJson.name, companyName: 'atom-shell-starter')
 
-settings = JSON.parse(decodeURIComponent(location.search.substr(14)))
-if settings.exitWhenDone
+if global.loadSettings.exitWhenDone
   jasmineFn = require 'jasmine'
   jasmineFn(global.jasmine)
 
