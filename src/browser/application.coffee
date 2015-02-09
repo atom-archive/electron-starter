@@ -20,7 +20,7 @@ class Application
   _.extend @prototype, EventEmitter.prototype
 
   constructor: (options) ->
-    {@resourcePath, @version, @devMode } = options
+    {@resourcePath, @devMode } = options
 
     @pkgJson = require '../../package.json'
     @windows = []
