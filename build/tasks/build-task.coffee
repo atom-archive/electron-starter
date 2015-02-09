@@ -46,8 +46,6 @@ module.exports = (grunt) ->
       path.join('npm', 'node_modules', '.bin', 'beep')
       path.join('npm', 'node_modules', '.bin', 'clear')
       path.join('npm', 'node_modules', '.bin', 'starwars')
-      path.join('jasmine-node', 'node_modules', 'gaze')
-      path.join('jasmine-node', 'spec')
       path.join('node_modules', 'nan')
       path.join('build', 'binding.Makefile')
       path.join('build', 'config.gypi')
