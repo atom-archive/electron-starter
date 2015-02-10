@@ -71,6 +71,15 @@ parseCommandLine = ->
 
   {resourcePath, devMode, test, exitWhenDone, specDirectory, logFile}
 
+setupCoffeeScript = ->
+  CoffeeScript = null
+
+  require.extensions['.coffee'] = (module, filePath) ->
+    CoffeeScript ?= require('coffee-script')
+    coffee = fs.readFileSync(filePath, 'utf8')
+    js = CoffeeScript.compile(coffee, filename: filePath)
+    module._compile(js, filePath)
+
 start = ->
   # Enable ES6 in the Renderer process
   app.commandLine.appendSwitch 'js-flags', '--harmony'
@@ -84,7 +93,7 @@ start = ->
   # unless it's after 'ready', or else mysterious bad things will happen
   # to you.
   app.on 'ready', ->
-    require('coffee-script').register()
+    setupCoffeeScript()
     require('../6to5').register()
 
     if args.devMode
