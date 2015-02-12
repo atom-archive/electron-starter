@@ -42,7 +42,12 @@ module.exports = (grunt) ->
 
     grunt.log.writeln "Using #{Object.keys(appConfig)} from appConfig"
 
-  {version, author, iconUrl, name, productName} = appConfig if appConfig?
+  appPaths = null
+  if appConfig?
+    appPaths = appConfig.paths
+    appPackageJson = appConfig.packageJson
+    {version, author, iconUrl, name, productName} = appPackageJson
+
   pkgName = name ? packageJson.name
   version ?= packageJson.version
   productName ?= packageJson.productName
@@ -205,7 +210,7 @@ module.exports = (grunt) ->
           stderr: false
           failOnError: false
 
-  opts[pkgName] = {appDir, appName, symbolsDir, buildDir, contentsDir, installDir, shellAppDir, productName, executableName}
+  opts[pkgName] = {appDir, appName, symbolsDir, buildDir, contentsDir, installDir, shellAppDir, productName, executableName, appPaths, appPackageJson}
 
   grunt.initConfig(opts)
 
@@ -223,5 +228,5 @@ module.exports = (grunt) ->
   ciTasks.push('publish-build')
   grunt.registerTask('ci', ciTasks)
 
-  defaultTasks = ['build-atom-shell', 'bower:install', 'build', 'set-version']
+  defaultTasks = ['build-atom-shell', 'bower:install', 'build', 'set-version', 'copy-app']
   grunt.registerTask('default', defaultTasks)
