@@ -113,6 +113,31 @@ createOptions = (filePath) ->
     options[key] = value
   options
 
+compileFile = (filePath) ->
+  sourceCode = fs.readFileSync(filePath, 'utf8')
+  unless /^("use 6to5"|'use 6to5')/.test(sourceCode)
+    return sourceCode
+
+  cachePath = getCachePath(sourceCode)
+  js = getCachedJavaScript(cachePath)
+
+  unless js
+    options = createOptions filePath
+    try
+      js = to5.transform(sourceCode, options).code
+      stats.misses++
+    catch error
+      console.error('Error compiling %s: %o', filePath, error)
+      throw error
+
+    try
+      fs.writeFileSync(cachePath, js)
+    catch error
+      console.error('Error writing to cache at %s: %o', cachePath, error)
+      throw error
+
+  return js
+
 # Function that obeys the contract of an entry in the require.extensions map.
 # Returns the transpiled version of the JavaScript code at filePath, which is
 # either generated on the fly or pulled from cache.
@@ -152,6 +177,7 @@ module.exports =
   register: register
   getCacheMisses: -> stats.misses
   getCacheHits: -> stats.hits
+  compileFile: compileFile
 
   # Visible for testing.
   create6to5VersionAndOptionsDigest: create6to5VersionAndOptionsDigest

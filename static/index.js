@@ -1,3 +1,4 @@
+'use 6to5';
 
 // Warning: You almost certainly do *not* want to edit this code - instead, you
 // want to edit src/renderer/main.coffee instead
