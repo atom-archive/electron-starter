@@ -25,6 +25,9 @@ class Application
     @pkgJson = require '../../package.json'
     @windows = []
 
+    app.on 'window-all-closed', ->
+      app.quit() if process.platform in ['win32', 'linux']
+
     @openWithOptions(options)
 
   # Opens a new window based on the options provided.
