@@ -69,6 +69,13 @@ module.exports = (grunt) ->
 
   installDir = path.resolve(installDir)
 
+  es6to5Config =
+    src: [
+      'src/**/*.js'
+      'static/**/*.js'
+    ]
+    dest: appDir
+
   coffeeConfig =
     glob_to_multiple:
       expand: true
@@ -113,6 +120,8 @@ module.exports = (grunt) ->
     pkg: grunt.file.readJSON('package.json')
 
     coffee: coffeeConfig
+
+    'compile-6to5': es6to5Config
 
     less: lessConfig
 
@@ -194,7 +203,7 @@ module.exports = (grunt) ->
 
   grunt.initConfig(opts)
 
-  grunt.registerTask('compile', ['coffee', 'cson'])
+  grunt.registerTask('compile', ['coffee', 'cson', 'compile-6to5'])
   grunt.registerTask('lint', ['coffeelint', 'csslint', 'lesslint'])
   grunt.registerTask('test', ['shell:kill-app', 'run-specs'])
 
