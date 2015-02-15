@@ -29,7 +29,6 @@ defaultOptions =
   # I think this can include es6.arrowFunctions, es6.classes, and
   # possibly others, but I want to be conservative.
   blacklist: [
-    'useStrict'
   ]
 
   # Includes support for es7 features listed at:
