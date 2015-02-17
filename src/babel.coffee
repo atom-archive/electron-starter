@@ -1,5 +1,5 @@
 ###
-Cache for source code transpiled by 6to5.
+Cache for source code transpiled by babel.
 
 Inspired by https://github.com/atom/atom/blob/6b963a562f8d495fbebe6abdbafbc7caf705f2c3/src/coffee-cache.coffee.
 ###
@@ -7,7 +7,7 @@ Inspired by https://github.com/atom/atom/blob/6b963a562f8d495fbebe6abdbafbc7caf7
 crypto = require 'crypto'
 fs = require 'fs-plus'
 path = require 'path'
-to5 = require '6to5-core'
+babel = require 'babel-core'
 
 stats =
   hits: 0
@@ -33,7 +33,7 @@ defaultOptions =
   ]
 
   # Includes support for es7 features listed at:
-  # http://6to5.org/docs/usage/transformers/#es7-experimental-.
+  # http://babeljs.io/docs/usage/transformers/#es7-experimental-.
   experimental: true
 
   optional: [
@@ -79,10 +79,10 @@ updateDigestForJsonValue = (shasum, value) ->
       shasum.update(',', 'utf8')
     shasum.update('}', 'utf8')
 
-create6to5VersionAndOptionsDigest = (version, options) ->
+createBabelVersionAndOptionsDigest = (version, options) ->
   shasum = crypto.createHash('sha1')
-  # Include the version of 6to5 in the hash.
-  shasum.update('6to5-core', 'utf8')
+  # Include the version of babel in the hash.
+  shasum.update('babel-core', 'utf8')
   shasum.update('\0', 'utf8')
   shasum.update(version, 'utf8')
   shasum.update('\0', 'utf8')
@@ -92,7 +92,7 @@ create6to5VersionAndOptionsDigest = (version, options) ->
 cacheDir = path.join(fs.absolute('~/.atom'), 'compile-cache')
 jsCacheDir = path.join(
     cacheDir,
-    create6to5VersionAndOptionsDigest(to5.version, defaultOptions),
+    createBabelVersionAndOptionsDigest(babel.version, defaultOptions),
     'js')
 
 getCachePath = (sourceCode) ->
@@ -107,7 +107,7 @@ getCachedJavaScript = (cachePath) ->
       return cachedJavaScript
   null
 
-# Returns the 6to5 options that should be used to transpile filePath.
+# Returns the babel options that should be used to transpile filePath.
 createOptions = (filePath) ->
   options = filename: filePath
   for key, value of defaultOptions
@@ -119,7 +119,7 @@ createOptions = (filePath) ->
 # either generated on the fly or pulled from cache.
 loadFile = (module, filePath) ->
   sourceCode = fs.readFileSync(filePath, 'utf8')
-  unless /^("use 6to5"|'use 6to5')/.test(sourceCode)
+  unless /^("use 6to5"|'use 6to5'|"use babel"|'use babel')/.test(sourceCode)
     module._compile(sourceCode, filePath)
     return
 
@@ -129,7 +129,7 @@ loadFile = (module, filePath) ->
   unless js
     options = createOptions filePath
     try
-      js = to5.transform(sourceCode, options).code
+      js = babel.transform(sourceCode, options).code
       stats.misses++
     catch error
       console.error('Error compiling %s: %o', filePath, error)
@@ -155,4 +155,4 @@ module.exports =
   getCacheHits: -> stats.hits
 
   # Visible for testing.
-  create6to5VersionAndOptionsDigest: create6to5VersionAndOptionsDigest
+  createBabelVersionAndOptionsDigest: createBabelVersionAndOptionsDigest

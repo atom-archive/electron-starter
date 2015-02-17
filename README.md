@@ -21,7 +21,7 @@ Another useful script is `script/grunt`, which will run the local version of Gru
 
 ### Using JavaScript ES6
 
-JavaScript ES6 / ESNext is available via the 6to5 project for almost all files except for very early in startup. To use it, add `'use 6to5';` to the top of your file. Check out https://6to5.org for more information. 
+JavaScript ES6 / ESNext is available via the Babel project for almost all files except for very early in startup. To use it, add `'use babel';` to the top of your file. Check out https://babeljs.io for more information. 
 
 ### What's the "browser" vs "renderer" code?
 
