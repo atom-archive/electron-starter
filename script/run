@@ -21,7 +21,7 @@ if (process.platform === 'darwin') {
 }
 
 if (process.platform === 'win32') {
-  cmd = path.join(target, pkgInfo.productName, pkgInfo.productName + '.exe');
+  cmd = '"' + path.join(target, pkgInfo.productName, pkgInfo.productName + '.exe"');
 }
 
 var toRun = cmd + " " + theArgs.join(" ");
