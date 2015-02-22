@@ -24,7 +24,8 @@ module.exports = (grunt) ->
   grunt.registerTask 'dump-symbols', 'Dump symbols for native modules', ->
     done = @async()
 
-    symbolsDir = grunt.config.get('atom.symbolsDir')
+    pkgName = grunt.config.get('name')
+    symbolsDir = grunt.config.get("#{pkgName}.symbolsDir")
     rm symbolsDir
     mkdir symbolsDir
 
