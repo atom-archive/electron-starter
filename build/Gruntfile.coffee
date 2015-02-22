@@ -205,7 +205,6 @@ module.exports = (grunt) ->
   ciTasks.push('create-windows-installer') if process.platform is 'win32'
   ciTasks.push('test') if process.platform is 'darwin'
   ciTasks.push('codesign')
-  ciTasks.push('publish-build')
   grunt.registerTask('ci', ciTasks)
 
   defaultTasks = ['build-atom-shell', 'bower:install', 'build', 'set-version']
