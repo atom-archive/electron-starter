@@ -24,10 +24,11 @@ if (theArgs[i] === '--app-config' && theArgs[i + 1]) {
   theArgs.splice(i, 2)
 }
 
-if (appConfig && appConfig.name)
-  name = appConfig.name;
-if (appConfig && appConfig.productName)
-  productName = appConfig.productName;
+var appConfigPackageJSON = appConfig.packageJSON;
+if (appConfig && appConfig.packageJSON && appConfig.packageJSON.name)
+  name = appConfig.packageJSON.name;
+if (appConfig && appConfig.packageJSON && appConfig.packageJSON.productName)
+  productName = appConfig.packageJSON.productName;
 
 var target = path.join(process.env.TMPDIR || process.env.TEMP || '/tmp', name + "-build");
 
