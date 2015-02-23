@@ -24,7 +24,6 @@ if (theArgs[i] === '--app-config' && theArgs[i + 1]) {
   theArgs.splice(i, 2)
 }
 
-var appConfigPackageJSON = appConfig.packageJSON;
 if (appConfig && appConfig.packageJSON && appConfig.packageJSON.name)
   name = appConfig.packageJSON.name;
 if (appConfig && appConfig.packageJSON && appConfig.packageJSON.productName)
