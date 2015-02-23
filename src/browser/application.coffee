@@ -79,6 +79,16 @@ class Application
   #   :specDirectory - The directory to load specs from.
   #   :logfile - The file path to log output to.
   openWindow: (options) ->
+    {resourcePath} = options
+    bootstrapScript = if @pkgJson.rendererMain?
+      if @devMode
+        require.resolve(path.join(resourcePath, @pkgJson.rendererMain))
+      else
+        require.resolve(path.join(resourcePath, '..', 'extapp', @pkgJson.rendererMain))
+    else
+      require.resolve(path.join(resourcePath, 'src', 'renderer', 'main'))
+
+    options.bootstrapScript = bootstrapScript
     appWindow = new AppWindow(options)
     @menu = new AppMenu(pkg: @pkgJson)
 
@@ -106,4 +116,3 @@ class Application
   #   :appWindow - The {AppWindow} to be removed.
   removeAppWindow: (appWindow) =>
     @windows.splice(idx, 1) for w, idx in @windows when w is appWindow
-
