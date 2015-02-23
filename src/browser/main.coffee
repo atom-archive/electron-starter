@@ -49,7 +49,7 @@ parseCommandLine = ->
   logFile = args['log-file']
 
   if args['resource-path']
-    devMode = false
+    devMode = true
     resourcePath = args['resource-path']
   else
     # Set resourcePath based on the specDirectory if running specs on atom core
