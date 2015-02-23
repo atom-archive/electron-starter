@@ -97,8 +97,15 @@ start = ->
     require('../6to5').register()
 
     if args.devMode
-      require(path.join(args.resourcePath, 'src', 'coffee-cache')).register()
-      Application = require path.join(args.resourcePath, 'src', 'browser', 'application')
+      try
+        require(path.join(args.resourcePath, 'src', 'coffee-cache')).register()
+      catch e
+        ;
+
+      try
+        Application = require path.join(args.resourcePath, 'src', 'browser', 'application')
+      catch e
+        Application = require './application'
     else
       Application = require './application'
 
