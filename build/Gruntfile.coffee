@@ -9,7 +9,7 @@ require 'vm-compatibility-layer'
 
 _ = require 'underscore-plus'
 
-packageJson = require '../package.json'
+packageJSON = require '../package.json'
 
 module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-bower-task')
@@ -42,17 +42,17 @@ module.exports = (grunt) ->
 
     grunt.log.writeln "Using #{Object.keys(appConfig)} from appConfig"
 
-  appPaths = null
+  extAppPaths = null
   if appConfig?
-    appPaths = appConfig.paths
-    appPackageJson = appConfig.packageJson
-    {version, author, iconUrl, name, productName} = appPackageJson
+    extAppPaths = appConfig.paths
+    extAppPackageJSON = appConfig.packageJSON
+    {version, author, iconUrl, name, productName} = extAppPackageJSON
 
-  pkgName = name ? packageJson.name
-  version ?= packageJson.version
-  productName ?= packageJson.productName
-  author ?= packageJson.author
-  iconUrl ?= packageJson.iconUrl
+  pkgName = name ? packageJSON.name
+  version ?= packageJSON.version
+  productName ?= packageJSON.productName
+  author ?= packageJSON.author
+  iconUrl ?= packageJSON.iconUrl
 
   [major, minor, patch] = version.split('.')
   tmpDir = os.tmpdir()
@@ -210,7 +210,7 @@ module.exports = (grunt) ->
           stderr: false
           failOnError: false
 
-  opts[pkgName] = {appDir, appName, symbolsDir, buildDir, contentsDir, installDir, shellAppDir, productName, executableName, appPaths, appPackageJson}
+  opts[pkgName] = {appDir, appName, symbolsDir, buildDir, contentsDir, installDir, shellAppDir, productName, executableName, extAppPaths, extAppPackageJSON}
 
   grunt.initConfig(opts)
 
