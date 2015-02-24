@@ -45,4 +45,4 @@ module.exports = (grunt) ->
       console.log results
       elapsedTime = Math.round((Date.now() - startTime) / 100) / 10
       grunt.log.ok("Total spec time: #{elapsedTime}s")
-      done();
+      done()

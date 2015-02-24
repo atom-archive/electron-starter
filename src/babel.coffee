@@ -91,9 +91,9 @@ createBabelVersionAndOptionsDigest = (version, options) ->
 
 cacheDir = path.join(fs.absolute('~/.atom'), 'compile-cache')
 jsCacheDir = path.join(
-    cacheDir,
-    createBabelVersionAndOptionsDigest(babel.version, defaultOptions),
-    'js')
+  cacheDir,
+  createBabelVersionAndOptionsDigest(babel.version, defaultOptions),
+  'js')
 
 getCachePath = (sourceCode) ->
   digest = crypto.createHash('sha1').update(sourceCode, 'utf8').digest('hex')

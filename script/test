@@ -6,6 +6,8 @@ require('./utils/config')
 process.chdir(path.dirname(__dirname));
 
 safeExec('node script/bootstrap', function() {
-  var gruntPath = '"' + path.join('node_modules', '.bin', 'grunt') + (process.platform === 'win32' ? '.cmd"' : '"');
-  safeExec(gruntPath + ' ci --stack --no-color', process.exit);
+  var gruntPath = '"' + path.join('build', 'node_modules', '.bin', 'grunt') + (process.platform === 'win32' ? '.cmd"' : '"');
+  var gruntFileOpt = ['--gruntfile', path.resolve('build', 'Gruntfile.coffee')];
+  gruntFileOpt = gruntFileOpt.join(' ');
+  safeExec(gruntPath + ' ci --stack --no-color ' + gruntFileOpt, process.exit);
 });
