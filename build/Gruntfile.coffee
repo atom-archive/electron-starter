@@ -203,7 +203,7 @@ module.exports = (grunt) ->
   grunt.registerTask('lint', ['coffeelint', 'csslint', 'lesslint'])
   grunt.registerTask('test', ['shell:kill-app', 'run-specs'])
 
-  ciTasks = ['output-disk-space', 'build-atom-shell', 'bower:install', 'build']
+  ciTasks = ['output-disk-space', 'build-atom-shell', 'bower:install', 'build', 'generate-license']
   ciTasks.push('dump-symbols') if process.platform isnt 'win32'
   ciTasks.push('set-version', 'check-licenses', 'lint')
   ciTasks.push('mkdeb') if process.platform is 'linux'
