@@ -177,6 +177,11 @@ module.exports = (grunt) ->
       authors: packageJson.author
       iconUrl: packageJson.iconUrl ? 'https://raw.githubusercontent.com/atom/atom/master/resources/atom.png'
 
+    mkdeb:
+      section: 'misc'
+      categories: 'GNOME;GTK;Development;Documentation'
+      genericName: 'Demo Application'
+
     bower:
       install:
         options:
