@@ -40,9 +40,12 @@ cp "$TARGET/usr/share/$SHORT_NAME/resources/app/LICENSE.md" "$TARGET/usr/share/d
 mkdir -m $FILE_MODE -p "$TARGET/usr/share/lintian/overrides"
 cp "$ROOT/resources/linux/debian/lintian-overrides" "$TARGET/usr/share/lintian/overrides/$SHORT_NAME"
 
+# Symlink bin
+ln -s "$TARGET/usr/share/$SHORT_NAME/$SHORT_NAME" "$TARGET/usr/bin/$SHORT_NAME"
+
 # Remove executable bit from .node files
 find "$TARGET" -type f -name "*.node" -exec chmod a-x {} \;
 
 fakeroot dpkg-deb -b "$TARGET"
-mv "$TARGET_ROOT/atom-$VERSION-$ARCH.deb" "$DEB_PATH"
+mv "$TARGET_ROOT/$SHORT_NAME-$VERSION-$ARCH.deb" "$DEB_PATH"
 rm -rf "$TARGET_ROOT"

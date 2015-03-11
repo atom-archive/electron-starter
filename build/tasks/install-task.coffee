@@ -18,7 +18,7 @@ module.exports = (grunt) ->
       throw new Error("Install is only for Linux")
     else
       binDir = path.join(installDir, 'bin')
-      shareDir = path.join(installDir, 'share', 'atom')
+      shareDir = path.join(installDir, 'share', pkgName)
 
       iconName = path.join(shareDir, 'resources', 'app', 'resources', 'app.png')
 

@@ -2,7 +2,7 @@
 Name=<%= productName %>
 Comment=<%= description %>
 GenericName=<%= genericName %>
-Exec=<%= installDir %>/share/atom/atom %U
+Exec=<%= installDir %>/share/<%= name %>/<%= name %> %U
 Icon=<%= iconName %>
 Type=Application
 StartupNotify=true
