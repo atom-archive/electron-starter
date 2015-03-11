@@ -3,7 +3,7 @@ path = require 'path'
 _ = require 'underscore-plus'
 
 module.exports = (grunt) ->
-  {spawn} = require('./task-helpers')(grunt)
+  {spawn,cp,rm} = require('./task-helpers')(grunt)
 
   fillTemplate = (filePath, data) ->
     pkgName = grunt.config.get('name')
@@ -58,13 +58,15 @@ module.exports = (grunt) ->
       controlFilePath = fillTemplate(path.join('resources', 'linux', 'debian', 'control'), data)
       desktopFilePath = fillTemplate(path.join('resources', 'linux', 'app.desktop'), data)
 
-      grunt.file.mv(desktopFilePath, path.join(path.dirname(desktopFilePath), "#{pkgName}.desktop"))
+      cp(desktopFilePath, path.join(path.dirname(desktopFilePath), "#{pkgName}.desktop"))
+      rm(desktopFilePath)
 
       icon = path.join('resources', 'app.png')
 
       cmd = path.join('script', 'mkdeb')
       args = [version, arch, controlFilePath, desktopFilePath, icon, buildDir, data.name]
 
+      grunt.verbose.ok "About to invoke #{cmd} #{args.join(' ')}"
       spawn {cmd, args}, (error) ->
         if error?
           done(error)
