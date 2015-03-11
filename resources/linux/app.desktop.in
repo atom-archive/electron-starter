@@ -1,10 +1,10 @@
 [Desktop Entry]
-Name=Atom
+Name=<%= productName %>
 Comment=<%= description %>
-GenericName=Text Editor
+GenericName=<%= genericName %>
 Exec=<%= installDir %>/share/atom/atom %U
 Icon=<%= iconName %>
 Type=Application
 StartupNotify=true
-Categories=GNOME;GTK;Utility;TextEditor;Development;
+Categories=<%= categories %>;
 MimeType=text/plain;
