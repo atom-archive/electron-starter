@@ -57,14 +57,15 @@ module.exports = (grunt) ->
 
       controlFilePath = fillTemplate(path.join('resources', 'linux', 'debian', 'control'), data)
       desktopFilePath = fillTemplate(path.join('resources', 'linux', 'app.desktop'), data)
+      realDesktopFilePath = path.join(path.dirname(desktopFilePath), "#{pkgName}.desktop")
 
-      cp(desktopFilePath, path.join(path.dirname(desktopFilePath), "#{pkgName}.desktop"))
+      cp(desktopFilePath, realDesktopFilePath)
       rm(desktopFilePath)
 
       icon = path.join('resources', 'app.png')
 
       cmd = path.join('script', 'mkdeb')
-      args = [version, arch, controlFilePath, desktopFilePath, icon, buildDir, data.name]
+      args = [version, arch, controlFilePath, realDesktopFilePath, icon, buildDir, data.name]
 
       grunt.verbose.ok "About to invoke #{cmd} #{args.join(' ')}"
       spawn {cmd, args}, (error) ->
