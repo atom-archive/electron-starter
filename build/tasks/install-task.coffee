@@ -27,7 +27,7 @@ module.exports = (grunt) ->
       mkdir path.dirname(shareDir)
       cp shellAppDir, shareDir
 
-      rm path.join(shareDir, pkgName, 'obj')
-      rm path.join(shareDir, pkgName, 'gen')
+      rm path.join(shareDir, 'obj')
+      rm path.join(shareDir, 'gen')
 
       fs.chmodSync(path.join(shareDir, pkgName), "755")
