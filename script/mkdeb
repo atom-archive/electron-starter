@@ -41,7 +41,7 @@ mkdir -m $FILE_MODE -p "$TARGET/usr/share/lintian/overrides"
 cp "$ROOT/resources/linux/debian/lintian-overrides" "$TARGET/usr/share/lintian/overrides/$SHORT_NAME"
 
 # Symlink bin
-ln -s "$TARGET/usr/share/$SHORT_NAME/$SHORT_NAME" "$TARGET/usr/bin/$SHORT_NAME"
+ln -s "/usr/share/$SHORT_NAME/$SHORT_NAME" "$TARGET/usr/bin/$SHORT_NAME"
 
 # Remove executable bit from .node files
 find "$TARGET" -type f -name "*.node" -exec chmod a-x {} \;
