@@ -5,23 +5,23 @@ Summary:        <%= description %>
 License:        MIT
 URL:            <%= repository.url %>
 AutoReqProv:    no # Avoid libchromiumcontent.so missing dependency
-Prefix:         /usr/local
+Prefix:         /usr
 
 %description
 <%= description %>
 
 %install
-mkdir -p %{buildroot}/usr/local/share/<%= name %>
-cp -r <%= shellAppDir %>/* %{buildroot}/usr/local/share/<%= name %>
-mkdir -p %{buildroot}/usr/local/bin/
-ln -sf ../share/<%= name %>/<%= name %> %{buildroot}/usr/local/bin/<%= name %>
-mkdir -p %{buildroot}/usr/local/share/applications/
-mv <%= name %>.desktop %{buildroot}/usr/local/share/applications/
-mkdir -p %{buildroot}/usr/local/share/pixmaps
-mv <%= shellAppDir %>/resources/app/resources/app.png %{buildroot}/usr/local/share/pixmaps/<%= name %>.png
+mkdir -p %{buildroot}/usr/share/<%= name %>
+cp -r <%= shellAppDir %>/* %{buildroot}/usr/share/<%= name %>
+mkdir -p %{buildroot}/usr/bin/
+ln -sf ../share/<%= name %>/<%= name %> %{buildroot}/usr/bin/<%= name %>
+mkdir -p %{buildroot}/usr/share/applications/
+mv <%= name %>.desktop %{buildroot}/usr/share/applications/
+mkdir -p %{buildroot}/usr/share/pixmaps
+mv <%= shellAppDir %>/resources/app/resources/app.png %{buildroot}/usr/share/pixmaps/<%= name %>.png
 
 %files
-/usr/local/bin/<%= name %>
-/usr/local/share/<%= name %>/
-/usr/local/share/applications/<%= name %>.desktop
-/usr/local/share/pixmaps/<%= name %>.png
+/usr/bin/<%= name %>
+/usr/share/<%= name %>/
+/usr/share/applications/<%= name %>.desktop
+/usr/share/pixmaps/<%= name %>.png
