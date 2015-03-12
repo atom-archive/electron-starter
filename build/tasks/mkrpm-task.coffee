@@ -3,7 +3,7 @@ path = require 'path'
 _ = require 'underscore-plus'
 
 module.exports = (grunt) ->
-  {spawn, rm, mkdir} = require('./task-helpers')(grunt)
+  {spawn, rm, mkdir, cp} = require('./task-helpers')(grunt)
 
   fillTemplate = (filePath, data) ->
     template = _.template(String(fs.readFileSync("#{filePath}.in")))
@@ -16,6 +16,8 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'mkrpm', 'Create rpm package', ->
     done = @async()
+    @requiresConfig("#{@name}.categories")
+    @requiresConfig("#{@name}.genericName")
 
     if process.arch is 'ia32'
       arch = 'i386'
@@ -27,22 +29,37 @@ module.exports = (grunt) ->
     pkgName = grunt.config.get('name')
     {name, version, description} = grunt.config.get('pkg')
     buildDir = grunt.config.get("#{pkgName}.buildDir")
-    executableName = grunt.config.get("#{pkgName}.executableName")
+    appDir = grunt.config.get("#{pkgName}.appDir")
+    shellAppDir = grunt.config.get("#{pkgName}.shellAppDir")
+    appName = grunt.config.get("#{pkgName}.appName")
 
     rpmDir = path.join(buildDir, 'rpm')
     rm rpmDir
     mkdir rpmDir
 
     installDir = grunt.config.get("#{pkgName}.installDir")
-    shareDir = path.join(installDir, 'share', executableName)
+    shareDir = path.join(installDir, 'share', pkgName)
     iconName = path.join(shareDir, 'resources', 'app', 'resources', 'app.png')
 
-    data = {name, version, description, installDir, iconName}
-    specFilePath = fillTemplate(path.join('resources', 'linux', 'redhat', "#{executableName}.spec"), data)
-    desktopFilePath = fillTemplate(path.join('resources', 'linux', "#{executableName}.desktop"), data)
+    data = _.extend {}, grunt.config.get('pkg'),
+      genericName: grunt.config.get("#{@name}.genericName")
+      categories: grunt.config.get("#{@name}.categories")
+      iconName: pkgName
+      installDir: installDir
+      appDir: appDir
+      shellAppDir: shellAppDir
+
+    specFilePath = fillTemplate(path.join('resources', 'linux', 'redhat', 'app.spec'), data)
+    desktopFilePath = fillTemplate(path.join('resources', 'linux', "app.desktop"), data)
+    realDesktopFilePath = path.join(path.dirname(desktopFilePath), "#{pkgName}.desktop")
+
+    cp(desktopFilePath, realDesktopFilePath)
+    rm(desktopFilePath)
 
     cmd = path.join('script', 'mkrpm')
-    args = [specFilePath, desktopFilePath, buildDir]
+    args = [specFilePath, realDesktopFilePath, buildDir, pkgName, appName, iconName]
+
+    grunt.verbose.ok "About to run #{cmd} #{args.join(' ')}"
     spawn {cmd, args}, (error) ->
       if error?
         done(error)

@@ -177,6 +177,15 @@ module.exports = (grunt) ->
       authors: packageJson.author
       iconUrl: packageJson.iconUrl ? 'https://raw.githubusercontent.com/atom/atom/master/resources/atom.png'
 
+    mkdeb:
+      section: 'misc'
+      categories: 'GNOME;GTK;Development;Documentation'
+      genericName: 'Demo Application'
+
+    mkrpm:
+      categories: 'GNOME;GTK;Development;Documentation'
+      genericName: 'Demo Application'
+
     bower:
       install:
         options:
@@ -198,7 +207,7 @@ module.exports = (grunt) ->
   grunt.registerTask('lint', ['coffeelint', 'csslint', 'lesslint'])
   grunt.registerTask('test', ['shell:kill-app', 'run-specs'])
 
-  ciTasks = ['output-disk-space', 'build-atom-shell', 'bower:install', 'build']
+  ciTasks = ['output-disk-space', 'build-atom-shell', 'bower:install', 'build', 'generate-license']
   ciTasks.push('dump-symbols') if process.platform isnt 'win32'
   ciTasks.push('set-version', 'check-licenses', 'lint')
   ciTasks.push('mkdeb') if process.platform is 'linux'

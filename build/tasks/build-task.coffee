@@ -39,6 +39,7 @@ module.exports = (grunt) ->
     # Put any paths here that shouldn't end up in the built Atom.app
     # so that it doesn't becomes larger than it needs to be.
     ignoredPaths = [
+      path.join('apm')
       path.join('less', 'dist')
       path.join('npm', 'doc')
       path.join('npm', 'html')
