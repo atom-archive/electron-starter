@@ -3,21 +3,25 @@ Version:        <%= version %>
 Release:        0.1%{?dist}
 Summary:        <%= description %>
 License:        MIT
-URL:            <%= url %>
+URL:            <%= repository.url %>
 AutoReqProv:    no # Avoid libchromiumcontent.so missing dependency
+Prefix:         /usr/local
 
 %description
 <%= description %>
 
 %install
-mkdir -p %{buildroot}/usr/local/share/<%= executableName %>
-cp -r /tmp/atom-build/Atom/* %{buildroot}/usr/local/share/<%= executableName %>
+mkdir -p %{buildroot}/usr/local/share/<%= name %>
+cp -r <%= shellAppDir %>/* %{buildroot}/usr/local/share/<%= name %>
 mkdir -p %{buildroot}/usr/local/bin/
-ln -sf %{buildroot}/usr/local/share/<%= executableName %>/<%= executableName %> /usr/local/bin
+ln -sf ../share/<%= name %>/<%= name %> %{buildroot}/usr/local/bin/<%= name %>
 mkdir -p %{buildroot}/usr/local/share/applications/
-mv <%= executableName %>.desktop %{buildroot}/usr/local/share/applications/
+mv <%= name %>.desktop %{buildroot}/usr/local/share/applications/
+mkdir -p %{buildroot}/usr/local/share/pixmaps
+mv <%= shellAppDir %>/resources/app/resources/app.png %{buildroot}/usr/local/share/pixmaps/<%= name %>.png
 
 %files
-/usr/local/bin/<%= executableName %>
-/usr/local/share/<%= executableName %>/
-/usr/local/share/applications/<% executableName %>.desktop
+/usr/local/bin/<%= name %>
+/usr/local/share/<%= name %>/
+/usr/local/share/applications/<%= name %>.desktop
+/usr/local/share/pixmaps/<%= name %>.png

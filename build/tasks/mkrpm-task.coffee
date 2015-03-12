@@ -3,7 +3,7 @@ path = require 'path'
 _ = require 'underscore-plus'
 
 module.exports = (grunt) ->
-  {spawn, rm, mkdir} = require('./task-helpers')(grunt)
+  {spawn, rm, mkdir, cp} = require('./task-helpers')(grunt)
 
   fillTemplate = (filePath, data) ->
     template = _.template(String(fs.readFileSync("#{filePath}.in")))
@@ -29,6 +29,9 @@ module.exports = (grunt) ->
     pkgName = grunt.config.get('name')
     {name, version, description} = grunt.config.get('pkg')
     buildDir = grunt.config.get("#{pkgName}.buildDir")
+    appDir = grunt.config.get("#{pkgName}.appDir")
+    shellAppDir = grunt.config.get("#{pkgName}.shellAppDir")
+    appName = grunt.config.get("#{pkgName}.appName")
 
     rpmDir = path.join(buildDir, 'rpm')
     rm rpmDir
@@ -41,13 +44,20 @@ module.exports = (grunt) ->
     data = _.extend {}, grunt.config.get('pkg'),
       genericName: grunt.config.get("#{@name}.genericName")
       categories: grunt.config.get("#{@name}.categories")
-      iconName: 'app'
+      iconName: pkgName
+      installDir: installDir
+      appDir: appDir
+      shellAppDir: shellAppDir
 
     specFilePath = fillTemplate(path.join('resources', 'linux', 'redhat', 'app.spec'), data)
-    desktopFilePath = fillTemplate(path.join('resources', 'linux', "#{pkgName}.desktop"), data)
+    desktopFilePath = fillTemplate(path.join('resources', 'linux', "app.desktop"), data)
+    realDesktopFilePath = path.join(path.dirname(desktopFilePath), "#{pkgName}.desktop")
+
+    cp(desktopFilePath, realDesktopFilePath)
+    rm(desktopFilePath)
 
     cmd = path.join('script', 'mkrpm')
-    args = [specFilePath, desktopFilePath, buildDir, pkgName]
+    args = [specFilePath, realDesktopFilePath, buildDir, pkgName, appName, iconName]
 
     grunt.verbose.ok "About to run #{cmd} #{args.join(' ')}"
     spawn {cmd, args}, (error) ->
