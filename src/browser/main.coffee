@@ -65,7 +65,7 @@ parseCommandLine = ->
       resourcePath ?= global.devResourcePath
 
   unless fs.statSyncNoException(resourcePath)
-    resourcePath = path.dirname(path.dirname(__dirname))
+    resourcePath = path.join(process.resourcesPath, 'app.asar')
 
   resourcePath = path.resolve(resourcePath)
 
