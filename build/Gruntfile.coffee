@@ -182,6 +182,10 @@ module.exports = (grunt) ->
       categories: 'GNOME;GTK;Development;Documentation'
       genericName: 'Demo Application'
 
+    mkrpm:
+      categories: 'GNOME;GTK;Development;Documentation'
+      genericName: 'Demo Application'
+
     bower:
       install:
         options:
