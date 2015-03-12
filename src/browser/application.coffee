@@ -20,7 +20,7 @@ class Application
   _.extend @prototype, EventEmitter.prototype
 
   constructor: (options) ->
-    {@resourcePath, @devMode } = options
+    {@resourcePath, @devMode} = options
 
     @pkgJson = require '../../package.json'
     @windows = []
@@ -37,7 +37,6 @@ class Application
   #   :devMode - Boolean to determine if the application is running in dev mode.
   #   :test - Boolean to determine if the application is running in test mode.
   #   :exitWhenDone - Boolean to determine whether to automatically exit.
-  #   :specDirectory - The directory to load specs from.
   #   :logfile - The file path to log output to.
   openWithOptions: (options) ->
     {test} = options
@@ -57,12 +56,8 @@ class Application
   # options -
   #   :exitWhenDone - Boolean to determine whether to automatically exit.
   #   :resourcePath - The path to include specs from.
-  #   :specDirectory - The directory to load specs from.
   #   :logfile - The file path to log output to.
-  openSpecsWindow: ({exitWhenDone, resourcePath, specDirectory, logFile}) ->
-    if resourcePath isnt @resourcePath and not fs.existsSync(resourcePath)
-      resourcePath = @resourcePath
-
+  openSpecsWindow: ({exitWhenDone, logFile}) ->
     try
       bootstrapScript = require.resolve(path.resolve(global.devResourcePath, 'spec', 'spec-bootstrap'))
     catch error
@@ -70,7 +65,7 @@ class Application
 
     isSpec = true
     devMode = true
-    new AppWindow({bootstrapScript, exitWhenDone, resourcePath, isSpec, devMode, specDirectory, logFile})
+    new AppWindow({bootstrapScript, exitWhenDone, @resourcePath, isSpec, devMode, logFile})
 
   # Opens up a new {AtomWindow} and runs the application.
   #
@@ -79,9 +74,18 @@ class Application
   #   :devMode - Boolean to determine if the application is running in dev mode.
   #   :test - Boolean to determine if the application is running in test mode.
   #   :exitWhenDone - Boolean to determine whether to automatically exit.
-  #   :specDirectory - The directory to load specs from.
   #   :logfile - The file path to log output to.
   openWindow: (options) ->
+    {resourcePath} = options
+    bootstrapScript = if @pkgJson.rendererMain?
+      if @devMode
+        require.resolve(path.join(resourcePath, @pkgJson.rendererMain))
+      else
+        require.resolve(path.join(resourcePath, '..', 'extapp', @pkgJson.rendererMain))
+    else
+      require.resolve(path.join(resourcePath, 'src', 'renderer', 'main'))
+
+    options.bootstrapScript = bootstrapScript
     appWindow = new AppWindow(options)
     @menu = new AppMenu(pkg: @pkgJson)
 
@@ -109,4 +113,3 @@ class Application
   #   :appWindow - The {AppWindow} to be removed.
   removeAppWindow: (appWindow) =>
     @windows.splice(idx, 1) for w, idx in @windows when w is appWindow
-

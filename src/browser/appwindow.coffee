@@ -16,10 +16,7 @@ class AppWindow
   _.extend @prototype, EventEmitter.prototype
 
   constructor: (options) ->
-    @loadSettings =
-      bootstrapScript: require.resolve '../renderer/main'
-
-    @loadSettings = _.extend(@loadSettings, options)
+    @loadSettings = options
 
     windowOpts =
       width: 800

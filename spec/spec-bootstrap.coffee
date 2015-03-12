@@ -2,11 +2,16 @@ fs = require 'fs-plus'
 path = require 'path'
 remote = require 'remote'
 app = remote.require 'app'
+url = require 'url'
 
 @pkgJson = require 'package.json'
 
 # Start the crash reporter before anything else.
 require('crash-reporter').start(productName: @pkgJson.name, companyName: 'atom-shell-starter')
+
+requireSpecs = ->
+  for specFilePath in fs.listTreeSync(path.join(global.loadSettings.resourcePath, 'spec')) when /-spec\.(coffee|js)$/.test specFilePath
+    require specFilePath
 
 if global.loadSettings.exitWhenDone
   jasmineFn = require 'jasmine'
@@ -21,9 +26,7 @@ if global.loadSettings.exitWhenDone
   jasmineEnv = jasmine.getEnv()
   jasmineEnv.addReporter(reporter)
 
-  for specFilePath in fs.listTreeSync('spec/') when /-spec\.(coffee|js)$/.test specFilePath
-    require specFilePath
-
+  requireSpecs()
   jasmineEnv.execute()
 else
   link = document.createElement 'link'
@@ -35,7 +38,5 @@ else
   require '../vendor/jasmine/lib/jasmine-2.1.3/jasmine-html'
   require '../vendor/jasmine/lib/jasmine-2.1.3/boot'
 
-  for specFilePath in fs.listTreeSync('spec/') when /-spec\.(coffee|js)$/.test specFilePath
-    require specFilePath
-
+  requireSpecs()
   window.jasmineExecute()

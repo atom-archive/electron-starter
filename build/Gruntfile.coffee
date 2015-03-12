@@ -9,7 +9,7 @@ require 'vm-compatibility-layer'
 
 _ = require 'underscore-plus'
 
-packageJson = require '../package.json'
+packageJSON = require '../package.json'
 
 module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-bower-task')
@@ -32,11 +32,31 @@ module.exports = (grunt) ->
     grunt.log.writeln = (args...) -> grunt.log
     grunt.log.write = (args...) -> grunt.log
 
-  [major, minor, patch] = packageJson.version.split('.')
+  appConfigString = grunt.option('app-config')
+  if appConfigString?
+    try
+      appConfig = JSON.parse(appConfigString)
+    catch error
+      grunt.log.writeln 'Failed to parse JSON app-config:', error.message
+      grunt.log.writeln error.stack
+
+    grunt.log.writeln "Using #{Object.keys(appConfig)} from appConfig"
+
+  extAppPaths = null
+  if appConfig?
+    extAppPaths = appConfig.paths
+    extAppPackageJSON = appConfig.packageJSON
+    {version, author, iconUrl, name, productName} = extAppPackageJSON
+
+  pkgName = name ? packageJSON.name
+  version ?= packageJSON.version
+  productName ?= packageJSON.productName
+  author ?= packageJSON.author
+  iconUrl ?= packageJSON.iconUrl
+
+  [major, minor, patch] = version.split('.')
   tmpDir = os.tmpdir()
 
-  pkgName = packageJson.name
-  productName = packageJson.productName
   appName = if process.platform is 'darwin' then "#{productName}.app" else productName
   executableName = if process.platform is 'win32' then "#{productName}.exe" else productName
   executableName = executableName.toLowerCase() if process.platform is 'linux'
@@ -174,8 +194,8 @@ module.exports = (grunt) ->
     'create-windows-installer':
       appDirectory: shellAppDir
       outputDirectory: path.join(buildDir, 'installer')
-      authors: packageJson.author
-      iconUrl: packageJson.iconUrl ? 'https://raw.githubusercontent.com/atom/atom/master/resources/atom.png'
+      authors: author
+      iconUrl: iconUrl ? 'https://raw.githubusercontent.com/atom/atom/master/resources/atom.png'
 
     mkdeb:
       section: 'misc'
@@ -199,7 +219,7 @@ module.exports = (grunt) ->
           stderr: false
           failOnError: false
 
-  opts[pkgName] = {appDir, appName, symbolsDir, buildDir, contentsDir, installDir, shellAppDir, productName, executableName}
+  opts[pkgName] = {appDir, appName, symbolsDir, buildDir, contentsDir, installDir, shellAppDir, productName, executableName, extAppPaths, extAppPackageJSON}
 
   grunt.initConfig(opts)
 
@@ -216,5 +236,5 @@ module.exports = (grunt) ->
   ciTasks.push('codesign')
   grunt.registerTask('ci', ciTasks)
 
-  defaultTasks = ['build-atom-shell', 'bower:install', 'build', 'set-version']
+  defaultTasks = ['build-atom-shell', 'bower:install', 'build', 'set-version', 'copy-app']
   grunt.registerTask('default', defaultTasks)
