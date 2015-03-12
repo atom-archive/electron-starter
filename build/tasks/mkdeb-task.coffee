@@ -39,9 +39,8 @@ module.exports = (grunt) ->
     else
       return done("Unsupported arch #{process.arch}")
 
-    data = _.extend grunt.config.get('pkg'),
+    data = _.extend {}, grunt.config.get('pkg'),
       section: grunt.config.get("#{@name}.section")
-      executableName: grunt.config.get("#{pkgName}.name")
       genericName: grunt.config.get("#{@name}.genericName")
       categories: grunt.config.get("#{@name}.categories")
       installDir: '/usr'
@@ -72,5 +71,5 @@ module.exports = (grunt) ->
         if error?
           done(error)
         else
-          grunt.log.ok "Created #{buildDir}/#{executableName}-#{version}-#{arch}.deb"
+          grunt.log.ok "Created #{buildDir}/#{pkgName}-#{version}-#{arch}.deb"
           done()

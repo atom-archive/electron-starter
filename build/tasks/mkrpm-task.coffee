@@ -16,6 +16,8 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'mkrpm', 'Create rpm package', ->
     done = @async()
+    @requiresConfig("#{@name}.categories")
+    @requiresConfig("#{@name}.genericName")
 
     if process.arch is 'ia32'
       arch = 'i386'
@@ -27,22 +29,27 @@ module.exports = (grunt) ->
     pkgName = grunt.config.get('name')
     {name, version, description} = grunt.config.get('pkg')
     buildDir = grunt.config.get("#{pkgName}.buildDir")
-    executableName = grunt.config.get("#{pkgName}.executableName")
 
     rpmDir = path.join(buildDir, 'rpm')
     rm rpmDir
     mkdir rpmDir
 
     installDir = grunt.config.get("#{pkgName}.installDir")
-    shareDir = path.join(installDir, 'share', executableName)
+    shareDir = path.join(installDir, 'share', pkgName)
     iconName = path.join(shareDir, 'resources', 'app', 'resources', 'app.png')
 
-    data = {name, version, description, installDir, iconName}
-    specFilePath = fillTemplate(path.join('resources', 'linux', 'redhat', "#{executableName}.spec"), data)
-    desktopFilePath = fillTemplate(path.join('resources', 'linux', "#{executableName}.desktop"), data)
+    data = _.extend {}, grunt.config.get('pkg'),
+      genericName: grunt.config.get("#{@name}.genericName")
+      categories: grunt.config.get("#{@name}.categories")
+      iconName: 'app'
+
+    specFilePath = fillTemplate(path.join('resources', 'linux', 'redhat', 'app.spec'), data)
+    desktopFilePath = fillTemplate(path.join('resources', 'linux', "#{pkgName}.desktop"), data)
 
     cmd = path.join('script', 'mkrpm')
-    args = [specFilePath, desktopFilePath, buildDir]
+    args = [specFilePath, desktopFilePath, buildDir, pkgName]
+
+    grunt.verbose.ok "About to run #{cmd} #{args.join(' ')}"
     spawn {cmd, args}, (error) ->
       if error?
         done(error)
