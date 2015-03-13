@@ -12,7 +12,7 @@ class ApplicationMenu
   _.extend @prototype, EventEmitter.prototype
 
   constructor: (options) ->
-    menuJson = season.resolve(path.join(process.resourcesPath, 'app', 'menus', process.platform))
+    menuJson = season.resolve(path.join(process.resourcesPath, 'app.asar', 'menus', "#{process.platform}.json"))
     template = season.readFileSync(menuJson)
 
     @template = @translateTemplate(template.menu, options.pkg)

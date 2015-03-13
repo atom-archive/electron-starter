@@ -72,7 +72,7 @@ class Application
     devMode = true
     new AppWindow({bootstrapScript, exitWhenDone, resourcePath, isSpec, devMode, specDirectory, logFile})
 
-  # Opens up a new {AtomWindow} and runs the application.
+  # Opens up a new {AppWindow} and runs the application.
   #
   # options -
   #   :resourcePath - The path to include specs from.
