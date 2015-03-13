@@ -209,12 +209,12 @@ module.exports = (grunt) ->
 
   ciTasks = ['output-disk-space', 'build-atom-shell', 'bower:install', 'build', 'generate-license']
   ciTasks.push('dump-symbols') if process.platform isnt 'win32'
-  ciTasks.push('set-version', 'check-licenses', 'lint')
+  ciTasks.push('set-version', 'check-licenses', 'lint', 'generate-asar')
   ciTasks.push('mkdeb') if process.platform is 'linux'
   ciTasks.push('create-windows-installer') if process.platform is 'win32'
   ciTasks.push('test') if process.platform is 'darwin'
   ciTasks.push('codesign')
   grunt.registerTask('ci', ciTasks)
 
-  defaultTasks = ['build-atom-shell', 'bower:install', 'build', 'set-version']
+  defaultTasks = ['build-atom-shell', 'bower:install', 'build', 'set-version', 'generate-asar']
   grunt.registerTask('default', defaultTasks)
