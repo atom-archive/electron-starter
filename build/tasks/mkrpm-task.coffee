@@ -37,9 +37,9 @@ module.exports = (grunt) ->
     rm rpmDir
     mkdir rpmDir
 
-    installDir = grunt.config.get("#{pkgName}.installDir")
+    installDir = '/usr'
     shareDir = path.join(installDir, 'share', pkgName)
-    iconName = path.resolve('.', 'resources', 'app', 'resources', 'app.png')
+    iconName = path.resolve('.', 'resources', 'app.png')
 
     data = _.extend {}, grunt.config.get('pkg'),
       genericName: grunt.config.get("#{@name}.genericName")
@@ -55,6 +55,10 @@ module.exports = (grunt) ->
 
     cp(desktopFilePath, realDesktopFilePath)
     rm(desktopFilePath)
+
+    # NB: We have to copy over app.png because by the time we get to it, we're
+    # already in an ASAR archive
+    cp(iconName, path.join(shellAppDir, 'app.png'))
 
     cmd = path.join('script', 'mkrpm')
     args = [specFilePath, realDesktopFilePath, buildDir, pkgName, appName, iconName]
