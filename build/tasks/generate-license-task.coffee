@@ -2,6 +2,8 @@ fs = require 'fs'
 path = require 'path'
 
 module.exports = (grunt) ->
+  {spawn, rm, mkdir, cp} = require('./task-helpers')(grunt)
+
   grunt.registerTask 'generate-license', 'Generate the license, including the licenses of all dependencies', (mode) ->
     legalEagle = require 'legal-eagle'
     done = @async()
@@ -20,8 +22,13 @@ module.exports = (grunt) ->
         pkgName = grunt.config.get('name')
         targetPath = path.join(grunt.config.get("#{pkgName}.appDir"), 'LICENSE.md')
         fs.writeFileSync(targetPath, licenseText)
+
+        # NB: We need to copy this to the directory above the appDir too so that
+        # we have a copy that we can use in mkdeb
+        cp targetPath, path.join(grunt.config.get("#{pkgName}.shellAppDir"), 'LICENSE.md')
       else
         console.log licenseText
+        
       done()
 
 getLicenseText = (dependencyLicenses) ->

@@ -51,7 +51,7 @@ module.exports = (grunt) ->
 
     {version, author} = data
 
-    getInstalledSize appDir, (error, installedSize) ->
+    getInstalledSize buildDir, (error, installedSize) ->
       data.installedSize = installedSize
 
       controlFilePath = fillTemplate(path.join('resources', 'linux', 'debian', 'control'), data)
