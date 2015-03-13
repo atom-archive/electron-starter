@@ -39,7 +39,7 @@ module.exports = (grunt) ->
 
     installDir = grunt.config.get("#{pkgName}.installDir")
     shareDir = path.join(installDir, 'share', pkgName)
-    iconName = path.join(shareDir, 'resources', 'app', 'resources', 'app.png')
+    iconName = path.resolve('.', 'resources', 'app', 'resources', 'app.png')
 
     data = _.extend {}, grunt.config.get('pkg'),
       genericName: grunt.config.get("#{@name}.genericName")

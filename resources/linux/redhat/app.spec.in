@@ -18,7 +18,7 @@ ln -sf ../share/<%= name %>/<%= name %> %{buildroot}/usr/bin/<%= name %>
 mkdir -p %{buildroot}/usr/share/applications/
 mv <%= name %>.desktop %{buildroot}/usr/share/applications/
 mkdir -p %{buildroot}/usr/share/pixmaps
-mv <%= shellAppDir %>/resources/app/resources/app.png %{buildroot}/usr/share/pixmaps/<%= name %>.png
+mv ./resources/app/resources/app.png %{buildroot}/usr/share/pixmaps/<%= name %>.png
 
 %files
 /usr/bin/<%= name %>
