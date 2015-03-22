@@ -12,7 +12,7 @@ module.exports = (grunt) ->
     target = path.resolve(appDir, '..', 'app.asar')
 
     grunt.verbose.ok "Generating asar archive from #{appDir} => #{target}"
-    asar.createPackage appDir, target, (err) ->
+    asar.createPackageWithOptions appDir, target, {unpack: "*.node"}, (err) ->
       return done(err) if err?
       rm appDir
       done()
