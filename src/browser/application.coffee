@@ -93,7 +93,12 @@ class Application
       BrowserWindow.getFocusedWindow().reload()
 
     @menu.on 'window:toggle-full-screen', ->
-      BrowserWindow.getFocusedWindow().toggleFullScreen()
+      focusedWindow = BrowserWindow.getFocusedWindow()
+      fullScreen = true
+      if focusedWindow.isFullScreen()
+        fullScreen = false
+
+      focusedWindow.setFullScreen(fullScreen)
 
     @menu.on 'window:toggle-dev-tools', ->
       BrowserWindow.getFocusedWindow().toggleDevTools()
@@ -109,4 +114,3 @@ class Application
   #   :appWindow - The {AppWindow} to be removed.
   removeAppWindow: (appWindow) =>
     @windows.splice(idx, 1) for w, idx in @windows when w is appWindow
-
