@@ -41,8 +41,7 @@ module.exports = (grunt) ->
     done = @async()
     startTime = Date.now()
     runCoreSpecs (error, results) ->
-      console.log error
-      console.log results
       elapsedTime = Math.round((Date.now() - startTime) / 100) / 10
       grunt.log.ok("Total spec time: #{elapsedTime}s")
-      done()
+      grunt.log.error("[Error]".red + " core spec failed") if results
+      done(!results)

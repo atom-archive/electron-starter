@@ -21,7 +21,10 @@ if global.loadSettings.exitWhenDone
   jasmineEnv = jasmine.getEnv()
   jasmineEnv.addReporter(reporter)
 
-  for specFilePath in fs.listTreeSync('spec/') when /-spec\.(coffee|js)$/.test specFilePath
+  specRootPath = 'spec/'
+  if global.loadSettings.resourcePath
+    specRootPath = path.resolve(global.loadSettings.resourcePath, specRootPath)
+  for specFilePath in fs.listTreeSync(specRootPath) when /-spec\.(coffee|js)$/.test specFilePath
     require specFilePath
 
   jasmineEnv.execute()
@@ -35,7 +38,10 @@ else
   require '../vendor/jasmine/lib/jasmine-2.1.3/jasmine-html'
   require '../vendor/jasmine/lib/jasmine-2.1.3/boot'
 
-  for specFilePath in fs.listTreeSync('spec/') when /-spec\.(coffee|js)$/.test specFilePath
+  specRootPath = 'spec/'
+  if global.loadSettings.resourcePath
+    specRootPath = path.resolve(global.loadSettings.resourcePath, specRootPath)
+  for specFilePath in fs.listTreeSync(specRootPath) when /-spec\.(coffee|js)$/.test specFilePath
     require specFilePath
 
   window.jasmineExecute()

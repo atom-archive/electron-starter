@@ -64,7 +64,7 @@ class Application
       resourcePath = @resourcePath
 
     try
-      bootstrapScript = require.resolve(path.resolve(global.devResourcePath, 'spec', 'spec-bootstrap'))
+      bootstrapScript = require.resolve(path.resolve(resourcePath, 'spec', 'spec-bootstrap'))
     catch error
       bootstrapScript = require.resolve(path.resolve(__dirname, '..', '..', 'spec', 'spec-bootstrap'))
 
