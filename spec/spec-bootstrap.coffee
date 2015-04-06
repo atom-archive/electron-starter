@@ -7,6 +7,7 @@ app = remote.require 'app'
 
 # Start the crash reporter before anything else.
 require('crash-reporter').start(productName: @pkgJson.name, companyName: 'atom-shell-starter')
+specRootPath = path.resolve(global.loadSettings.resourcePath, 'spec/')
 
 if global.loadSettings.exitWhenDone
   jasmineFn = require 'jasmine'
@@ -21,9 +22,6 @@ if global.loadSettings.exitWhenDone
   jasmineEnv = jasmine.getEnv()
   jasmineEnv.addReporter(reporter)
 
-  specRootPath = 'spec/'
-  if global.loadSettings.resourcePath
-    specRootPath = path.resolve(global.loadSettings.resourcePath, specRootPath)
   for specFilePath in fs.listTreeSync(specRootPath) when /-spec\.(coffee|js)$/.test specFilePath
     require specFilePath
 
@@ -38,9 +36,6 @@ else
   require '../vendor/jasmine/lib/jasmine-2.1.3/jasmine-html'
   require '../vendor/jasmine/lib/jasmine-2.1.3/boot'
 
-  specRootPath = 'spec/'
-  if global.loadSettings.resourcePath
-    specRootPath = path.resolve(global.loadSettings.resourcePath, specRootPath)
   for specFilePath in fs.listTreeSync(specRootPath) when /-spec\.(coffee|js)$/.test specFilePath
     require specFilePath
 
