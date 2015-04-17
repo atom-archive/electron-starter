@@ -1,6 +1,6 @@
 {
   "name": "eightoheight-build",
-  "description": "Atom Shell Sample App Build",
+  "description": "Electron Sample App Build",
   "repository": {
     "type": "git",
     "url": "https://github.com/atom/atom-shell-starter.git"

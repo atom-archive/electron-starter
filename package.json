@@ -2,9 +2,9 @@
   "name": "eightoheight",
   "productName": "EightOhEight",
   "version": "0.0.1",
-  "description": "A Sample Atom Shell App",
+  "description": "A Sample Electron App",
   "main": "./src/browser/main.js",
-  "author": "The Atom Shell Community",
+  "author": "The Electron Community",
   "repository": {
     "type": "git",
     "url": "https://github.com/atom/atom-shell-starter.git"

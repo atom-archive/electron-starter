@@ -89,7 +89,7 @@ start = ->
   if (args.devMode)
     app.commandLine.appendSwitch 'remote-debugging-port', '8315'
 
-  # Note: It's important that you don't do anything with Atom Shell
+  # Note: It's important that you don't do anything with Electron
   # unless it's after 'ready', or else mysterious bad things will happen
   # to you.
   app.on 'ready', ->
