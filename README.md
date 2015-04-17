@@ -1,6 +1,6 @@
 # Electron Starter App
 
-atom-shell-starter is a base application that you can use to get started writing your own cross-platform (Win/Mac/Linux) Desktop apps via Electron. This template is extracted from the Atom source code, cleaned up to be more generic, and to be a great starting point for a production app.
+electron-starter is a base application that you can use to get started writing your own cross-platform (Win/Mac/Linux) Desktop apps via Electron. This template is extracted from the Atom source code, cleaned up to be more generic, and to be a great starting point for a production app.
 
 ### Getting Started
 

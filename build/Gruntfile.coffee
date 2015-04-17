@@ -46,7 +46,6 @@ module.exports = (grunt) ->
   installDir = grunt.option('install-dir')
 
   home = process.env.HOME ? process.env.USERPROFILE
-  atomShellDownloadDir = path.join(home, '.atom-shell')
 
   symbolsDir = path.join(buildDir, "#{productName}.breakpad.syms")
   shellAppDir = path.join(buildDir, appName)
@@ -165,7 +164,7 @@ module.exports = (grunt) ->
     'build-atom-shell':
       tag: "v0.22.2"
       nodeVersion: '0.22.0'
-      remoteUrl: "https://github.com/atom/atom-shell"
+      remoteUrl: "https://github.com/atom/electron"
       buildDir: buildDir
       rebuildPackages: true
       projectName: pkgName

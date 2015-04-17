@@ -7,15 +7,15 @@
   "author": "The Electron Community",
   "repository": {
     "type": "git",
-    "url": "https://github.com/atom/atom-shell-starter.git"
+    "url": "https://github.com/atom/electron-starter.git"
   },
   "bugs": {
-    "url": "https://github.com/atom/atom-shell-starter/issues"
+    "url": "https://github.com/atom/electron-starter/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "http://github.com/atom/atom-shell-starter/raw/master/LICENSE.md"
+      "url": "http://github.com/atom/electron-starter/raw/master/LICENSE.md"
     }
   ],
   "dependencies": {

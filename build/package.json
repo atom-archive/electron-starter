@@ -3,7 +3,7 @@
   "description": "Electron Sample App Build",
   "repository": {
     "type": "git",
-    "url": "https://github.com/atom/atom-shell-starter.git"
+    "url": "https://github.com/atom/electron-starter.git"
   },
   "dependencies": {
     "asar": "^0.4.0",
