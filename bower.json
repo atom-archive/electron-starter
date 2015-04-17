@@ -1,7 +1,7 @@
 {
-  "name": "atom-shell-starter",
+  "name": "electron-starter",
   "version": "0.1.0",
-  "homepage": "https://github.com/atom/atom-shell-starter",
+  "homepage": "https://github.com/atom/electron-starter",
   "authors": [
     "Paul Betts <paul@paulbetts.org>"
   ],

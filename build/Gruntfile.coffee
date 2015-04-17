@@ -46,7 +46,6 @@ module.exports = (grunt) ->
   installDir = grunt.option('install-dir')
 
   home = process.env.HOME ? process.env.USERPROFILE
-  atomShellDownloadDir = path.join(home, '.atom-shell')
 
   symbolsDir = path.join(buildDir, "#{productName}.breakpad.syms")
   shellAppDir = path.join(buildDir, appName)
