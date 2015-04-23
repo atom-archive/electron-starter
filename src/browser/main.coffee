@@ -24,7 +24,6 @@ parseCommandLine = ->
     .alias('h', 'help').boolean('h').describe('h', 'Print this usage message.')
     .alias('l', 'log-file').string('l').describe('l', 'Log all output to file.')
     .alias('r', 'resource-path').string('r').describe('r', 'Set the path to the App source directory and enable dev-mode.')
-    .alias('s', 'spec-directory').string('s').describe('s', 'Set the directory from which to run package specs (default: Atom\'s spec directory).')
     .alias('t', 'test').boolean('t').describe('t', 'Run the specified specs and exit with error code on failures.')
     .alias('v', 'version').boolean('v').describe('v', 'Print the version.')
 
@@ -45,21 +44,11 @@ parseCommandLine = ->
   devMode = args['dev']
   test = args['test']
   exitWhenDone = test
-  specDirectory = args['spec-directory']
   logFile = args['log-file']
 
   if args['resource-path']
     devMode = true
     resourcePath = args['resource-path']
-  else
-    # Set resourcePath based on the specDirectory if running specs on atom core
-    if specDirectory?
-      packageDirectoryPath = path.join(specDirectory, '..')
-      packageManifestPath = path.join(packageDirectoryPath, 'package.json')
-      if fs.statSyncNoException(packageManifestPath)
-        try
-          packageManifest = JSON.parse(fs.readFileSync(packageManifestPath))
-          resourcePath = packageDirectoryPath if packageManifest.name is 'atom'
 
     if devMode
       resourcePath ?= global.devResourcePath
@@ -69,7 +58,7 @@ parseCommandLine = ->
 
   resourcePath = path.resolve(resourcePath)
 
-  {resourcePath, devMode, test, exitWhenDone, specDirectory, logFile}
+  {resourcePath, devMode, test, exitWhenDone, logFile}
 
 setupCoffeeScript = ->
   CoffeeScript = null
