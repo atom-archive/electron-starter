@@ -1,3 +1,8 @@
+# THIS REPO IS DEPRECATED
+
+This repo represents the "old way" of creating and publishing Electron applications, based on Atom's build process - while this way still works and there are still some good ideas in this repo, it's actually far easier to use [electron-prebuilt](https://github.com/mafintosh/electron-prebuilt) and [electron-packager](https://github.com/maxogden/electron-packager) to get started.
+
+
 # Electron Starter App
 
 electron-starter is a base application that you can use to get started writing your own cross-platform (Win/Mac/Linux) Desktop apps via Electron. This template is extracted from the Atom source code, cleaned up to be more generic, and to be a great starting point for a production app.
