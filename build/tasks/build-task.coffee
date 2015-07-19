@@ -39,7 +39,6 @@ module.exports = (grunt) ->
     # Put any paths here that shouldn't end up in the built Atom.app
     # so that it doesn't becomes larger than it needs to be.
     ignoredPaths = [
-      path.join('apm')
       path.join('less', 'dist')
       path.join('npm', 'doc')
       path.join('npm', 'html')
@@ -55,7 +54,6 @@ module.exports = (grunt) ->
       path.join('build', 'Release', 'obj.target')
       path.join('build', 'Release', 'obj')
       path.join('build', 'Release', '.deps')
-      path.join('vendor', 'apm')
       path.join('resources', 'mac')
       path.join('resources', 'win')
 
@@ -113,7 +111,6 @@ module.exports = (grunt) ->
     cp 'spec', path.join(appDir, 'spec')
     cp 'src', path.join(appDir, 'src'), filter: /.+\.(cson|coffee)$/
     cp 'static', path.join(appDir, 'static')
-    cp 'apm', path.join(appDir, 'apm'), filter: filterNodeModule
 
     if process.platform is 'darwin'
       grunt.file.recurse path.join('resources', 'mac'), (sourcePath, rootDirectory, subDirectory='', filename) ->
